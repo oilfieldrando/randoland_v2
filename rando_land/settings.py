@@ -151,3 +151,8 @@ LOGIN_URL = 'users:login'
 import django_heroku
 import dj_database_url
 django_heroku.settings(locals())
+
+if os.envron.get('DEBUG')=='TRUE':
+    DEBUG = True
+elif os.environ.get('DEBUG')=='FALSE':
+    DEBUG = False
