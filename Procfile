@@ -1,0 +1,1 @@
+web: gunicorn rando_blog.wsgi --log-file -
