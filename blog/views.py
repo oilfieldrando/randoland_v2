@@ -89,14 +89,18 @@ def admin_main(request):
 @login_required
 def new_thinkpiece(request):
     """add new thinkpiece"""
+    if not request.user.is_staff or not request.user.is_superuser:
+        raise Http404
     if request.method != 'POST':
         
         form = ThinkpieceForm()
     else:
         
-        form = ThinkpieceForm(data=request.POST, files=request.FILES)
+        form = ThinkpieceForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            form_set = form.save(commit=False)
+            form_set.author = request.user
+            form_set.save()
             messages.success(request, "Post successfully created")
             return redirect('blog:admin_main')
     
