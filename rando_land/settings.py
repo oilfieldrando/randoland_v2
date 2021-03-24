@@ -142,7 +142,7 @@ DEFAULT_FILE_STORAGE = 'rando_land.storages.MediaStore'
 STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 #MEDIA_URL = '/media/'
 #MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_URL = 'users:login'
