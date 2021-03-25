@@ -68,8 +68,8 @@ class RoundupDetail(generic.DetailView):
     
 def index(request):
     return render(request,'index.html',{
-        'bill_breakdowns':BillBreakdown.objects.all()[:3],
-        'thinkpieces': Thinkpiece.objects.all()[:2],
+        'bill_breakdowns':BillBreakdown.objects.filter(status=1)[:3],
+        'thinkpieces': Thinkpiece.objects.filter(status=1)[:2],
     
         })
 

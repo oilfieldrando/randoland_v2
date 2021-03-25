@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'users',
     'storages',
+    'imagekit',
 ]
 
 MIDDLEWARE = [
@@ -127,6 +128,7 @@ USE_TZ = True
 
 #STATIC_URL = '/static/'
 #STATICFILES_DIRS = [os.path.join(BASE_DIR,'static'),]
+
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 

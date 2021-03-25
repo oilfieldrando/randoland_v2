@@ -6,6 +6,8 @@ from utils import unique_slug_generator
 from ckeditor.fields import RichTextField
 from django.db.models.signals import pre_save
 from PIL import Image
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
 
 
 
@@ -36,6 +38,7 @@ class Thinkpiece(models.Model):
     updated_on = models.DateField(auto_now=True)
     created_on = models.DateField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
+
     
 
     def get_absolute_url(self):
@@ -55,11 +58,13 @@ class BillBreakdown(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE,
                                related_name='billbreakdownauthor')
     blurb = models.CharField(max_length=200, db_index=True)
-    slug = models.SlugField(max_length = 100, null=True,blank=True)
+    slug = models.SlugField(max_length = 100, null=True)
     bill_link = models.URLField(max_length=200)
     updated_on = models.DateField(auto_now=True)
     created_on = models.DateField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
+    
+
        
     class Meta:
         ordering = ['-created_on']
@@ -72,7 +77,7 @@ pre_save.connect(slug_generator, sender=BillBreakdown)
 class BreakdownItem(models.Model):
     billbreakdown = models.ForeignKey(BillBreakdown,verbose_name="Bill", 
                                       on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, blank=True)
     text = RichTextField(blank=True, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     
@@ -82,7 +87,7 @@ class BreakdownItem(models.Model):
     
     def __str__(self):
         """Return string representation of model"""
-        return self.title
+        return self.text
 
 class Images(models.Model):
     breakdownitem = models.ForeignKey(BreakdownItem, default=None, 
