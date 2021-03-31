@@ -10,16 +10,16 @@
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://randoland.us/thinkpieces/{{thinkpiece.slug}}">
-<meta property="og:title" content="Thinkpieces">
+<meta property="og:title" content="{{thinkpiece.title}}">
 <meta property="og:description" content="Mucking through .gov so you don't have to.">
 <meta property="og:image" content="{{thinkpiece.image.url}}">
 
 <!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://randoland.us/thinkpieces/{{thinkpiece.slug}}">
-<meta property="twitter:title" content="Thinkpieces">
-<meta property="twitter:description" content="Mucking through .gov so you don't have to.">
-<meta property="twitter:image" content="{{thinkpiece.image.url}}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://randoland.us/thinkpieces/{{thinkpiece.slug}}">
+<meta name="twitter:title" content="{{thinkpiece.title}}">
+<meta name="twitter:description" content="Mucking through .gov so you don't have to.">
+<meta name="twitter:image" content="{{thinkpiece.image.url}}">
 {% endblock tags %}
 
 {% block page_header %}
