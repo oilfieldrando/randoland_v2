@@ -51,9 +51,9 @@
   <div class="card-body">
     {% for breakdownitem in breakdownitems %} 
     <a href="{% url 'blog:pics' bill_breakdown.slug breakdownitem.id %}">    
-      <p class="card-text">{{breakdownitem.title}}<br>
+      <p class="card-text">{{breakdownitem.title}}
     
-      {{breakdownitem.text|safe}}
+      {{breakdownitem.text|safe}}<br>
       </p>
     </a>
     {% endfor %}
