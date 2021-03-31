@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static from staticfiles %}
 
 {% block tags %}
 <!-- Primary Meta Tags -->
@@ -12,7 +12,7 @@
 <meta property="og:url" content="https://randoland.us/bill_breakdowns/">
 <meta property="og:title" content="Bill Breakdowns">
 <meta property="og:description" content="Mucking through .gov so you don't have to.">
-<meta property="og:image" content="https://randoblog.s3.amazonaws.com/media/images/logo.png">
+<meta property="og:image" content="{% static 'images/logo.png' %}">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
