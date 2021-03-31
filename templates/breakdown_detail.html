@@ -11,15 +11,15 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://randoland.us/{{bill_breakdown.slug}}">
 <meta property="og:title" content="{{bill_breakdown.title}}">
-<meta property="og:description" content="Mucking through .gov so you don't have to.">
-<meta property="og:image" content="https://randoblog.s3.amazonaws.com/media/images/logo.png">
+<meta property="og:description" content="{{bill_breakdown.blurb}}">
+<meta property="og:image" content="{% static 'images/logo.png' %}">
 
 <!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://randoland.us/{{bill_breakdown.slug}}">
-<meta property="twitter:title" content="{{bill_breakdown.title}}">
-<meta property="twitter:description" content="Mucking through .gov so you don't have to.">
-<meta property="twitter:image" content="https://randoblog.s3.amazonaws.com/media/images/logo.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://randoland.us/{{bill_breakdown.slug}}">
+<meta name="twitter:title" content="{{bill_breakdown.title}}">
+<meta name="twitter:description" content="{{bill_breakdown.blurb}}">
+
 {% endblock tags %}
 
 {% block page_header %}
