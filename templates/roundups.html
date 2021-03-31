@@ -1,4 +1,26 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block tags %}
+<!-- Primary Meta Tags -->
+<title>Roundups</title>
+<meta name="title" content="Roundups">
+<meta name="description" content="Mucking through .gov so you don't have to.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://randoland.us/roundups/">
+<meta property="og:title" content="Weekly Roundups">
+<meta property="og:description" content="Mucking through .gov so you don't have to.">
+<meta property="og:image" content="https://d3346f13f1pt3f.cloudfront.net/static/logo.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://randoland.us/roundups/">
+<meta name="twitter:title" content="Roundups">
+<meta name="twitter:description" content="Mucking through .gov so you don't have to.">
+
+{% endblock tags %}
 
 {% block page_header %}
     <h4>Weekly Legislative Roundups</h4>
@@ -13,10 +35,10 @@
     <div class="card mb-3">
         <h4 class="card-header">
             <a href="{% url 'blog:roundup_detail' roundup.slug %}">{{roundup.title}}</a>
-            <small class="text-muted">{{roundup.author}} | {{roundup.created_on}}</small>
+            <small class="text-muted">{{roundup.created_on}}</small>
         </h4>
         <div class="card-body">
-            {{roundup.blurb}}
+            {{roundup.content}}
         </div>
     </div>
 {% empty %}

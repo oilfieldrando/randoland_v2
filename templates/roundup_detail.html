@@ -1,4 +1,26 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block tags %}
+<!-- Primary Meta Tags -->
+<title>{{roundup.title}}</title>
+<meta name="title" content="Roundups">
+<meta name="description" content="Mucking through .gov so you don't have to.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://randoland.us/roundups/{{roundup.slug}}">
+<meta property="og:title" content="{{roundup.title}}">
+<meta property="og:description" content="Mucking through .gov so you don't have to.">
+<meta property="og:image" content="https://d3346f13f1pt3f.cloudfront.net/static/logo.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://randoland.us/roundups/{{roundup.slug}}">
+<meta name="twitter:title" content="{{roundup.title}}">
+<meta name="twitter:description" content="Mucking through .gov so you don't have to.">
+
+{% endblock tags %}
 
 {% block page_header %}
 <p> 
