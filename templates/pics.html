@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load bootstrap4 %}
 {% load static %}
 
 {% block tags %}
@@ -17,9 +16,9 @@
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://www.randoland.us/bill_breakdowns/{{bill_breakdown.slug}}">
+<meta name="twitter:url" content="https://www.randoland.us/bill_breakdowns/{{bill_breakdown.slug}}/{{pics.id}}">
 <meta name="twitter:title" content="{{pics.title}}">
-<meta name="twitter:description" content="Mucking through .gov so you don't have to.">
+<meta name="twitter:description" content="{{bill_breakdown.title}}">
 <meta name="twitter:image" content="https://d3346f13f1pt3f.cloudfront.net/static/logo2.png">
 
 {% endblock tags %}
