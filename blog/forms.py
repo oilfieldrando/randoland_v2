@@ -33,7 +33,6 @@ class RoundupForm(forms.ModelForm):
             'author':'Author',
             'status':'Status',
             'content':'Roundup text',
-            'image':'Image',
             }
 
 

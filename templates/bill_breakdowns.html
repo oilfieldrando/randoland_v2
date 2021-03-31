@@ -1,4 +1,27 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block tags %}
+<!-- Primary Meta Tags -->
+<title>Bill Breakdowns</title>
+<meta name="title" content="Bill Breakdowns">
+<meta name="description" content="Mucking through .gov so you don't have to.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://randoland.us/bill_breakdowns/">
+<meta property="og:title" content="Bill Breakdowns">
+<meta property="og:description" content="Mucking through .gov so you don't have to.">
+<meta property="og:image" content="https://randoblog.s3.amazonaws.com/media/images/logo.png">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://randoland.us/bill_breakdowns/">
+<meta property="twitter:title" content="Bill Breakdowns">
+<meta property="twitter:description" content="Mucking through .gov so you don't have to.">
+<meta property="twitter:image" content="https://randoblog.s3.amazonaws.com/media/images/logo.png">
+{% endblock tags %}
+
 
 {% block page_header %}
     <h4>Bill Breakdowns</h4>

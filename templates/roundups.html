@@ -12,7 +12,7 @@
     
     <div class="card mb-3">
         <h4 class="card-header">
-            <a href="{% url 'blog:roundup_detail' roundup.slug %}">{{thinkpiece.title}}</a>
+            <a href="{% url 'blog:roundup_detail' roundup.slug %}">{{roundup.title}}</a>
             <small class="text-muted">{{roundup.author}} | {{roundup.created_on}}</small>
         </h4>
         <div class="card-body">

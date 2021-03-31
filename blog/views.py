@@ -34,17 +34,31 @@ def bill_breakdown(request,slug_text):
         raise Http404
         
     breakdownitems = BreakdownItem.objects.filter(billbreakdown=bill_breakdown).order_by('created_on')
-    
+
     context = {
         'bill_breakdown':bill_breakdown,
-        'breakdownitems':breakdownitems}
+        'breakdownitems':breakdownitems,
+        }
     return render(request, 'breakdown_detail.html',context)
 
 def pics(request,slug_text, pic_id):
+    bill_breakdown = BillBreakdown.objects.filter(slug=slug_text)
+    
+    if bill_breakdown.exists():
+        bill_breakdown = bill_breakdown.first()
+        
+    else:
+        raise Http404
+        
+    
     pics = get_object_or_404(BreakdownItem, id=pic_id)
     pic = Images.objects.filter(breakdownitem=pics)
     
-    context = {'pic':pic}
+    context = {
+        'bill_breakdown':bill_breakdown, 
+        'pics':pics,
+        'pic':pic,
+        }
     return render(request, 'pics.html',context)
 
     
@@ -77,6 +91,8 @@ def index(request):
 
 @login_required
 def admin_main(request):
+    if not request.user.is_staff or not request.user.is_superuser:
+        raise Http404
     return render(request,'admin_main.html', {
         'bill_breakdowns':BillBreakdown.objects.filter(author=request.user).order_by('-created_on'),
         'thinkpieces':Thinkpiece.objects.filter(author=request.user).order_by('-created_on'),
@@ -110,6 +126,8 @@ def new_thinkpiece(request):
 @login_required
 def edit_thinkpiece(request, slug):
     """add new thinkpiece"""
+    if not request.user.is_staff or not request.user.is_superuser:
+        raise Http404
     
     thinkpiece = Thinkpiece.objects.get(slug=slug)
     if thinkpiece.author != request.user:
@@ -386,6 +404,8 @@ def delete_breakdown_detail(request, slug_text, breakdownitem_id):
 @login_required
 def new_roundup(request):
     """add new thinkpiece"""
+    if not request.user.is_staff or not request.user.is_superuser:
+        raise Http404
     if request.method != 'POST':
         
         form = RoundupForm()
@@ -404,6 +424,8 @@ def new_roundup(request):
 @login_required
 def edit_roundup(request, slug):
     """add new thinkpiece"""
+    if not request.user.is_staff or not request.user.is_superuser:
+        raise Http404
     
     roundup = Roundup.objects.get(slug=slug)
     if roundup.author != request.user:

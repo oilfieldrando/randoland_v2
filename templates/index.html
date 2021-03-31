@@ -1,4 +1,26 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block tags %}
+<!-- Primary Meta Tags -->
+<title>RandoLand</title>
+<meta name="title" content="Latest Posts">
+<meta name="description" content="Mucking through .gov so you don't have to.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://randoland.us/">
+<meta property="og:title" content="Latest Posts">
+<meta property="og:description" content="Mucking through .gov so you don't have to.">
+<meta property="og:image" content="https://randoblog.s3.amazonaws.com/media/images/logo.png">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://randoland.us/">
+<meta property="twitter:title" content="Latest Posts">
+<meta property="twitter:description" content="Mucking through .gov so you don't have to.">
+<meta property="twitter:image" content="https://randoblog.s3.amazonaws.com/media/images/logo.png">
+{% endblock tags %}
 
 {% block page_header %}
     <h4>Latest Posts</h4>
