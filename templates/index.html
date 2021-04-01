@@ -12,14 +12,14 @@
 <meta name="og:url" content="https://www.randoland.us/">
 <meta name="og:title" content="Latest Posts">
 <meta name="og:description" content="Mucking through .gov so you don't have to.">
-<meta name="og:image" content="https://d3346f13f1pt3f.cloudfront.net/static/logo2.png">
+<meta name="og:image" content="https://d3346f13f1pt3f.cloudfront.net/static/logo3.png">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="https://www.randoland.us/">
 <meta name="twitter:title" content="Latest Posts">
 <meta name="twitter:description" content="Mucking through .gov so you don't have to.">
-<meta name="twitter:image" content="https://d3346f13f1pt3f.cloudfront.net/static/logo2.png">
+<meta name="twitter:image" content="https://d3346f13f1pt3f.cloudfront.net/static/logo3.png">
 {% endblock tags %}
 
 {% block page_header %}
@@ -30,16 +30,16 @@
 
 <div class="card mb-3">
     <h4 class="card-header">
-        <a href="{% url 'blog:bill_breakdowns' %}">Bill Breakdowns</a>
+        <a href="{% url 'blog:bill_breakdowns' %}">Bill Breakdowns&raquo;</a>
     </h4>
     
     <div class="card-body">
         {% for bill_breakdown in bill_breakdowns %}
-        <h3>
+        <h4>
             <a href="{% url 'blog:bill_breakdown' bill_breakdown.slug %}">{{bill_breakdown.title}}</a><br>
             <small class="text-muted">{{bill_breakdown.blurb}}</small>
-        </h3>
-            <br>
+        </h4><br>
+            
         {% empty %}
             <h3>No posts have been added yet</h3>
         {% endfor %}
@@ -49,17 +49,17 @@
 
 <div class="card mb-3">
     <h4 class="card-header">
-        <a href="{% url 'blog:thinkpieces' %}">Thinkpieces</a>
+        <a href="{% url 'blog:thinkpieces' %}">Thinkpieces&raquo;</a>
     </h4>
     
     <div class="card-body">
     
         {% for thinkpiece in thinkpieces %}   
-            <h3>
+            <h4>
             <a href="{% url 'blog:thinkpiece_detail' thinkpiece.slug %}">{{thinkpiece.title}}</a><br>
             <small class="text-muted">{{thinkpiece.blurb}}</small>
             
-            </h3><br>
+            </h4><br>
             
         {% empty %}
             <h3>No posts have been added yet</h3>
