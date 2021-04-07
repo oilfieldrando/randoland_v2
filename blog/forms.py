@@ -41,11 +41,12 @@ class RoundupForm(forms.ModelForm):
 class BillBreakdownForm(forms.ModelForm):
     class Meta:
         model = BillBreakdown
-        fields = ['title','bill_link','blurb','status']
+        fields = ['title','bill_link','blurb','image','status',]
         labels = {
             'title':'Title',
             'bill_link':'Link to bill text',
             'blurb':'Lede',
+            'image':'Image',
             'status':'Status',
             }
 

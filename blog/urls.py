@@ -54,5 +54,4 @@ urlpatterns = [
          name='delete_breakdown'),
     path('delete/bill_breakdowns/<slug:slug_text>/<int:breakdownitem_id>/', 
          views.delete_breakdown_detail, name='delete_breakdown_item'),
-    
     ]

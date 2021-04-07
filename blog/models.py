@@ -25,8 +25,6 @@ def slug_generator(sender, instance, *args, **kwargs):
 
 class Thinkpiece(models.Model):
 
-    
-
     title = models.CharField(max_length=200)
     blurb = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
@@ -39,7 +37,10 @@ class Thinkpiece(models.Model):
     created_on = models.DateField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
 
-    
+    image_thumbnail = ImageSpecField(source='image',
+                                     processors=[ResizeToFill(286,180)],
+                                     format='JPEG',
+                                     options={'quality':60})
 
     def get_absolute_url(self):
         return reverse('blog:thinkpiece_detail', args=[self.slug])
@@ -62,8 +63,13 @@ class BillBreakdown(models.Model):
     bill_link = models.URLField(max_length=200)
     updated_on = models.DateField(auto_now=True)
     created_on = models.DateField(auto_now_add=True)
+    image = models.ImageField(upload_to='images',
+                              verbose_name='Image',blank=True, null=True)
     status = models.IntegerField(choices=STATUS, default=0)
-    
+    image_thumbnail = ImageSpecField(source='image',
+                                     processors=[ResizeToFill(1200,630)],
+                                     format='JPEG',
+                                     options={'quality':100})
 
        
     class Meta:
