@@ -49,7 +49,7 @@
 <div class="card mb-3 p-3">
   <img class="card-img-top" src="{{bill_breakdown.image.url}}" alt="Card image cap">
   <div class="card-body">
-    <h4 class="card-title">{{bill_breakdown.title}}<br>
+    <h4 class="card-title mb-2">{{bill_breakdown.title}}<br>
     
       <a href="{{bill_breakdown.bill_link}}">
         <small class="text-muted">Link to full bill text&raquo;</small>       
@@ -57,7 +57,7 @@
     </h4>
     {% for breakdownitem in breakdownitems %} 
     <a href="{% url 'blog:pics' bill_breakdown.slug breakdownitem.id %}">
-    <h5 class="card-subtitle mb-1">{{breakdownitem.title}}</h5>
+    <h5 class="card-subtitle mt-2">{{breakdownitem.title}}</h5>
     </a>
 
      <p class="card-text">{{breakdownitem.text|safe}}</p>
