@@ -55,6 +55,7 @@
         <small class="text-muted">Link to full bill text&raquo;</small>       
       </a>
     </h4>
+    <div class="pb-2 mb-2 border-bottom"></div>
     {% for breakdownitem in breakdownitems %} 
     <a href="{% url 'blog:pics' bill_breakdown.slug breakdownitem.id %}">
     <h5 class="card-subtitle mt-2">{{breakdownitem.title}}</h5>
