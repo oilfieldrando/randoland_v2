@@ -15,6 +15,7 @@ urlpatterns = [
          name='bill_breakdown'),
     path('bill_breakdowns/<slug:slug_text>/<int:pic_id>/',
          views.pics,name='pics'),
+    path('heerf-states/', views.heerf_states, name='heerf_states'),
       
     # Roundup
     path('roundups/',views.RoundupList.as_view(),name='roundups'),
@@ -54,4 +55,5 @@ urlpatterns = [
          name='delete_breakdown'),
     path('delete/bill_breakdowns/<slug:slug_text>/<int:breakdownitem_id>/', 
          views.delete_breakdown_detail, name='delete_breakdown_item'),
+
     ]

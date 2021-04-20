@@ -5,6 +5,8 @@ from django.http import Http404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
+import pandas as pd
+import numpy as np
 
 
 
@@ -15,6 +17,41 @@ from .forms import ThinkpieceForm, BillBreakdownForm, BreakdownItemForm, Roundup
 
 # Create your views here.
 
+heerf_csv=pd.read_csv('https://raw.githubusercontent.com/oilfieldrando/HEERF_final/main/heerf_final.csv')
+def heerf_states(request):
+    
+    
+    states=['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Marshall Islands', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Virgin Islands', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia','Wyoming','Wisconsin','Palau']
+    state_totals = pd.DataFrame({'state':[],'cares_act':[],'omnibus':[],'amer_rescue_act':[],'total_relief':[]})
+    for x in states:
+        state_data=heerf_csv[heerf_csv['state_full']==x]
+        state_totals=state_totals.append({'state':x,'cares_act':state_data.iloc[:,[3]].sum(),'omnibus':state_data.iloc[:,[4]].sum(),'amer_rescue_act':state_data.iloc[:,[5]].sum(),'total_relief':state_data.iloc[:,[6]].sum()}, ignore_index=True)
+        state_totals=state_totals.astype({"total_relief":'float',"cares_act":'float',"omnibus":'float',"amer_rescue_act":'float'})
+        state_totals=state_totals.sort_values(by='total_relief',ascending=False)    
+        state_labels = list(state_totals['state'].values)
+        state_cares = list(state_totals['cares_act'].values)
+        state_omnibus = list(state_totals['omnibus'].values)
+        state_ara = list(state_totals['amer_rescue_act'].values)
+        total_relief = list(state_totals['total_relief'].values)
+        
+        
+    allData=[]
+    for i in range(state_totals.shape[0]):
+        temp=state_totals.loc[i]
+        allData.append(dict(temp))
+       
+    context={
+        'data':allData, 
+        'state_labels':state_labels,
+        'total_relief':total_relief, 
+        'state_cares':state_cares, 
+        'state_omnibus':state_omnibus,
+        'state_ara':state_ara
+        }
+    return render(request,'heerf.html',context)
+
+
+    
 
     
 def bill_breakdowns(request):
@@ -78,6 +115,8 @@ class RoundupList(generic.ListView):
 class RoundupDetail(generic.DetailView):
     model = Roundup
     template_name = 'roundup_detail.html'
+
+
        
     
 def index(request):
