@@ -162,7 +162,7 @@
                   <td>
                     <form action="{% url 'blog:heerf_lookup' %}"  method="post">
                       {% csrf_token %}
-                      <button type="submit" name="inputInst3" value="{{i.institution}}" class="btn btn-sm btn-light text-left">{{i.institution}}</button>
+                      <button type="submit" name="inputInst3" value="{{i.institution}}" class="btn btn-sm btn-light text-left">{{i.institution}}&raquo;</button>
                   </form>
                     
                   </td>

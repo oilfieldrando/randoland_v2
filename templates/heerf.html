@@ -17,14 +17,14 @@
 <meta property="og:url" content="https://www.randoland.us/heerf/">
 <meta property="og:title" content="HEERF Dashboard">
 <meta property="og:description" content="Mucking through .gov so you don't have to.">
-<meta property="og:image" content="https://d3346f13f1pt3f.cloudfront.net/static/logolarge.png">
+<meta property="og:image" content="https://d3346f13f1pt3f.cloudfront.net/media/images/heerf_title.png">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="https://www.randoland.us/heerf">
 <meta name="twitter:title" content="HEERF Dashboard">
 <meta name="twitter:description" content="Mucking through .gov so you don't have to.">
-<meta name="twitter:image" content="https://d3346f13f1pt3f.cloudfront.net/static/logolarge.png">
+<meta name="twitter:image" content="https://d3346f13f1pt3f.cloudfront.net/media/images/heerf_title.png">
 
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
@@ -184,7 +184,7 @@
 
   <div class="p-2 container-fluid">  
     <div>
-      <canvas id="myChart" style="height: 1100px;"></canvas>
+      <canvas id="myChart" style="height: 1200px;"></canvas>
     </div>
   </div>
 
@@ -549,7 +549,7 @@ config
           <td class="text-center align-middle">
             <form action="{% url 'blog:heerf_lookup' %}"  method="post">
               {% csrf_token %}
-              <button type="submit" name="inputInst" value="{{i.institution}}" class="btn btn-light text-center"><u>{{i.institution}}</u></button>
+              <button type="submit" name="inputInst" value="{{i.institution}}" class="btn btn-light text-center"><u>{{i.institution}}&raquo;</u></button>
           </form>
             
           </td>
