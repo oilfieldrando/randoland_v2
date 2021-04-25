@@ -7,7 +7,7 @@ Created on Mon Mar  8 15:13:06 2021
 
 from django import forms
 
-from .models import Thinkpiece, BillBreakdown, BreakdownItem, Images, Roundup
+from .models import Thinkpiece, BillBreakdown, BreakdownItem, Images, Roundup, Wastebook
 
 
 class ThinkpieceForm(forms.ModelForm):
@@ -35,6 +35,19 @@ class RoundupForm(forms.ModelForm):
             'content':'Roundup text',
             }
 
+class WastebookForm(forms.ModelForm):
+    
+    class Meta:
+        model = Wastebook
+        fields = ['title','desc','url','author','image','status',]
+        labels = {
+            'title':'Title',
+            'desc':'Description',
+            'url':'Link',
+            'author':'Author',
+            'image':'Image',
+            'status':'Status',
+            }
 
                 
         

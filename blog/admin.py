@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Thinkpiece, BillBreakdown, BreakdownItem, Images, Roundup
+from .models import Thinkpiece, BillBreakdown, BreakdownItem, Images, Roundup, Wastebook
 
 
 # Register your models here.
@@ -33,6 +33,7 @@ class RoundupAdmin(admin.ModelAdmin):
 
 admin.site.register(Thinkpiece,ThinkpieceAdmin)
 admin.site.register(BillBreakdown)
+admin.site.register(Wastebook)
 admin.site.register(Images)
 admin.site.register(Roundup, RoundupAdmin)
 

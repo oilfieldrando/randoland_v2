@@ -15,8 +15,19 @@ urlpatterns = [
          name='bill_breakdown'),
     path('bill_breakdowns/<slug:slug_text>/<int:pic_id>/',
          views.pics,name='pics'),
-    path('heerf-states/', views.heerf_states, name='heerf_states'),
-      
+     
+    #Wastebooks 
+    path('wastebooks/', views.wastebooks, name='wastebooks'), 
+    path('new-wastebook/', views.new_wastebook, name='new_wastebook'),
+    path('wastebooks/<int:id>/edit', views.edit_wastebook, name='edit_wastebook'),
+    path('wastebooks/<int:id>/delete', views.delete_wastebook, name='delete_wastebook'),
+
+    # HEERF 
+    path('heerf/', views.heerf, name='heerf'),
+    path('heerf-state/', views.heerf_state, name='heerf_main'),
+    path('heerf-inst/', views.heerf_inst, name='heerf_lookup'),
+
+
     # Roundup
     path('roundups/',views.RoundupList.as_view(),name='roundups'),
     path('roundups/<slug:slug>/', views.RoundupDetail.as_view(), 

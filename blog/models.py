@@ -113,6 +113,8 @@ class Roundup(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE,
                                related_name='roundups')
     content = RichTextField(blank=True, null=True)
+    image = models.ImageField(upload_to='images',
+                              verbose_name='Image',blank=True)
     created_on = models.DateField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
     
@@ -124,4 +126,21 @@ class Roundup(models.Model):
         return self.title
 
 pre_save.connect(slug_generator, sender=Roundup)
+
+class Wastebook(models.Model):
+    title = models.CharField(max_length=200)
+    desc = models.CharField(max_length=200, db_index=True)
+    url = models.URLField(max_length=200)
+    author = models.ForeignKey(User, on_delete=models.CASCADE,
+                               related_name='wastebook')
+    image = models.ImageField(upload_to='images',
+                              verbose_name='Image',blank=True)
+    created_on = models.DateField(auto_now_add=True)
+    status = models.IntegerField(choices=STATUS, default=0)
+    
+    class Meta:
+        ordering = ['-created_on']
+    
+    def __str__(self):
+        return self.title
 
