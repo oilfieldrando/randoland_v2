@@ -173,7 +173,7 @@
         </div>
       </form>
     </div>
-
+    
   </div>
 </div>
 
@@ -416,7 +416,7 @@
             <td class="text-center align-middle">
               <form action="{% url 'blog:heerf_lookup' %}"  method="post">
               {% csrf_token %}
-                <button type="submit" name="inputInst" value="{{i.institution}}" class="btn btn-light text-center"><u>{{i.institution}}&raquo;</u></button>
+                <button type="submit" name="inputInst" value="{{i.inst_id}}" class="btn btn-light text-center"><u>{{i.institution}}&raquo;</u></button>
               </form>
             </td>
           
@@ -549,7 +549,7 @@ config
           <td class="text-center align-middle">
             <form action="{% url 'blog:heerf_lookup' %}"  method="post">
               {% csrf_token %}
-              <button type="submit" name="inputInst" value="{{i.institution}}" class="btn btn-light text-center"><u>{{i.institution}}&raquo;</u></button>
+              <button type="submit" name="inputInst" value="{{i.inst_id}}" class="btn btn-light text-center"><u>{{i.institution}}&raquo;</u></button>
           </form>
             
           </td>
@@ -570,9 +570,9 @@ config
 <div class = "p-2 container-fluid">
   <div class= "text-center">
     <p>
-      <a href="https://www2.ed.gov/about/offices/list/ope/caresact.html">HEERF i data source</a><br>
-      <a href="https://www2.ed.gov/about/offices/list/ope/crrsaa.html">HEERF ii data source</a><br>
-      <a href="https://www.nasfaa.org/news-item/25018/American_Council_on_Education_Estimates_New_HEERF_III_Allocations">HEERF iii data source</a>
+      <a href="https://www2.ed.gov/about/offices/list/ope/allocationstableinstitutionalportion.pdf">HEERF i data source</a><br>
+      <a href="https://www2.ed.gov/about/offices/list/ope/314a1allocationtableheerfii.pdf">HEERF ii data source</a><br>
+      <a href="https://www.acenet.edu/Documents/ARP-HEERF3-Nonprofit-Institutions.pdf">HEERF iii data source</a>
     </p>
   </div>
 </div>

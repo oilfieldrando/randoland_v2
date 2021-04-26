@@ -79,3 +79,4 @@ class ImageForm(forms.ModelForm):
         model = Images
         fields = ('image', )
         labels = {'Image:'}
+

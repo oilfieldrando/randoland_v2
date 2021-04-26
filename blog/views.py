@@ -17,13 +17,10 @@ from .forms import ThinkpieceForm, BillBreakdownForm, BreakdownItemForm, Roundup
 
 # Create your views here.
 
-heerf_csv=pd.read_csv('https://raw.githubusercontent.com/oilfieldrando/HEERF_final/main/heerf_final.csv')
+heerf_csv=pd.read_csv('https://raw.githubusercontent.com/oilfieldrando/HEERF_final/main/heerf_final2.csv')
 def heerf(request):
     states=['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Marshall Islands', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Virgin Islands', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia','Wyoming','Wisconsin','Palau']
-    if request.POST.get('inputState2'):
-        state_name=request.POST.get('inputState2')
-    else:
-        state_name=request.POST.get('inputState')
+    state_name=request.POST.get('inputState')
     
     
 
@@ -31,6 +28,7 @@ def heerf(request):
         chart_view = request.POST.get('chart_view')
         if request.POST.get('chart_view')=='Totals by State':
             view_type='chart1'
+            
 
         elif request.POST.get('chart_view')=='50 Biggest Payouts':
             view_type='chart2'
@@ -63,7 +61,7 @@ def heerf(request):
 
     
     inst_name=request.POST.get('inputInst')
-    heerf_csv=pd.read_csv('https://raw.githubusercontent.com/oilfieldrando/HEERF_final/main/heerf_final.csv')  
+    heerf_csv=pd.read_csv('https://raw.githubusercontent.com/oilfieldrando/HEERF_final/main/heerf_final2.csv')  
     heerf_csv.sort_values(by=['institution'], inplace=True, ascending=True)
     inst_list=heerf_csv[heerf_csv['state_full']==state_name][heerf_csv.columns[1]].tolist()
     inst_count=len(inst_list)
@@ -151,14 +149,13 @@ def heerf(request):
 def heerf_state(request):
     # Lookup Bars
     states=['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Marshall Islands', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Virgin Islands', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia','Wyoming','Wisconsin','Palau']
-    if request.POST.get('inputState2'):
-        state_name=request.POST.get('inputState2')
-    elif request.POST.get('inputState'):
+    
+    if request.POST.get('inputState'):
         state_name=request.POST.get('inputState')
     else:
         state_name='Alabama'
     inst_name=request.POST.get('inputInst')
-    heerf_csv=pd.read_csv('https://raw.githubusercontent.com/oilfieldrando/HEERF_final/main/heerf_final.csv')  
+    heerf_csv=pd.read_csv('https://raw.githubusercontent.com/oilfieldrando/HEERF_final/main/heerf_final2.csv')  
     heerf_csv.sort_values(by=['institution'], inplace=True, ascending=True)
     inst_list=heerf_csv[heerf_csv['state_full']==state_name][heerf_csv.columns[1]].tolist()
     inst_count=len(inst_list)
@@ -180,7 +177,7 @@ def heerf_state(request):
 
 
     # Institution Table
-    heerf_csv=pd.read_csv('https://raw.githubusercontent.com/oilfieldrando/HEERF_final/main/heerf_final.csv')
+    
     heerf_csv.sort_values(by=['total_relief'], inplace=True, ascending=False)
     inst_data = heerf_csv[heerf_csv['state_full']==state_name].iloc[0:].reset_index()
     inst_data = inst_data.astype({"total_relief":'float'})
@@ -190,15 +187,19 @@ def heerf_state(request):
         temp1=inst_data.loc[i]
         inst_set.append(dict(temp1))
 
+    inst_code_set = []
+    heerf_csv.sort_values(by=['institution'], inplace=True, ascending=True)
+    inst_data2 = heerf_csv[heerf_csv['state_full']==state_name].iloc[0:].reset_index()
+    
+    for i in range(inst_data2.shape[0]):
+        temp2=inst_data2.loc[i]
+        inst_code_set.append(dict(temp2))
+
     # Inst graph
     inst_df=pd.DataFrame(heerf_csv[heerf_csv['state_full']==state_name])
-    inst_df.columns=['inst_st','inst','inst_state','inst_cares','inst_omnibus','inst_ara','inst_total','endowment']
+    inst_df.columns=['inst_st','inst','inst_state','inst_cares','inst_omnibus','inst_ara','inst_total','endowment','code']
     inst_labels=inst_df['inst'].values.tolist()
     inst_totals=inst_df['inst_total'].values.tolist()
-    
-    
-    
-
     
     context={
         'states':states,
@@ -213,7 +214,8 @@ def heerf_state(request):
         'inst_set':inst_set,
         'inst_labels':inst_labels,
         'inst_totals':inst_totals,
-        'inst_count':inst_count 
+        'inst_count':inst_count,
+        'inst_code_set':inst_code_set 
     }
     return render(request, 'heerf_main.html', context)
 
@@ -221,35 +223,33 @@ def heerf_inst(request):
 
     # Inputs
     states=['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Marshall Islands', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Virgin Islands', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia','Wyoming','Wisconsin','Palau']
-    if request.POST.get('inputState2'):
-        state_name=request.POST.get('inputState2')
-    elif request.POST.get('inputState'):
+    
+    if request.POST.get('inputState'):
         state_name=request.POST.get('inputState')
     else:
         state_name='Massachusettes'
     
     
-    if request.POST.get('inputInst2'):
-        inst_name=request.POST.get('inputInst2')
-    elif request.POST.get('inputInst'):
-        inst_name=request.POST.get('inputInst')
-    elif request.POST.get('inputInst3'):
-        inst_name=request.POST.get('inputInst3')
+    
+    if request.POST.get('inputInst'):
+        inst_name=int(request.POST.get('inputInst'))
+    
     else:
-        inst_name='Harvard University'
+        inst_name= 215500
 
-
+    inst_list=heerf_csv[heerf_csv['state_full']==state_name][heerf_csv.columns[1]].tolist()
 
     # Institution totals graph   
-    inst_data = pd.DataFrame(heerf_csv[heerf_csv['institution']==inst_name][heerf_csv.columns[0:]])
+    inst_data = pd.DataFrame(heerf_csv[heerf_csv['inst_id']==inst_name][heerf_csv.columns[0:]])
     heerf_csv.sort_values(by=['institution'], inplace=True, ascending=True)
+    inst = inst_data.iloc[0,1]
     state_name = inst_data.iloc[0,2]
     cares=inst_data.iloc[0,3]
     omnibus=inst_data.iloc[0,4]
     ara=inst_data.iloc[0,5]
     inst_total=inst_data.iloc[0,6]
     endowment=inst_data.iloc[0,7]
-    inst_list=heerf_csv[heerf_csv['state_full']==state_name][heerf_csv.columns[1]].tolist()
+    
     
     context={
     'states':states,
@@ -260,7 +260,8 @@ def heerf_inst(request):
     'omnibus':omnibus,
     'ara':ara,
     'inst_total':inst_total,
-    'endowment':endowment
+    'endowment':endowment,
+    'inst':inst
     }
     return render(request, 'heerf_lookup.html', context)
 

@@ -100,14 +100,14 @@
       </form>
     </div>
     <div class="col-auto"> 
-      <form method="post" action="{% url 'blog:heerf_lookup' %}" id="inputInst" >
+      <form method="post" action="{% url 'blog:heerf_lookup' %}" id="inputInst">
         {% csrf_token %}
         <div class="form-group" style="max-width:400px">
           <label for="inputInst" class="col-sm-2 col-form-label col-form-label-sm">Institution:</label>
             <select class="form-control form-control-sm" name="inputInst" id="inputInst" onchange="this.form.submit()">
               <option value="" selected disabled>--institution--</option>
-              {% for i in inst_list %}
-              <option>{{i}}</option>
+              {% for i in inst_code_set %}
+              <option value="{{i.inst_id}}">{{i.institution}}</option>
               {% endfor %}
             </select>
         </div>
@@ -162,7 +162,7 @@
                   <td>
                     <form action="{% url 'blog:heerf_lookup' %}"  method="post">
                       {% csrf_token %}
-                      <button type="submit" name="inputInst3" value="{{i.institution}}" class="btn btn-sm btn-light text-left">{{i.institution}}&raquo;</button>
+                      <button type="submit" name="inputInst" value="{{i.inst_id}}" class="btn btn-sm btn-light text-left">{{i.institution}}&raquo;</button>
                   </form>
                     
                   </td>
@@ -181,53 +181,62 @@
 
 
   
-<script>
-  var ctx = document.getElementById('myChart');
-  var myChart = new Chart(ctx, {
-      type: 'pie',
-      data: {
-          labels: [
-              'CARES Act',
-              'Omnibus',
-              'Amer. Rescue Act'
-          ],
-          datasets: [{
-              label: '# of Votes',
-              data: [
-              {{cares|safe}},
-              {{omnibus|safe}}, 
-              {{ara|safe}},
-              ],
-              backgroundColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                    'rgb(255, 205, 86)'
-              ],
-              
-          }]
-      },
-      options: {
-            plugins: {
-              title: {
-                display: true,
-                text: 'Relief Funds by Bill',
-                font:{size: 20}, 
-              },
-              legend: {
-                display: true,
-                position: 'bottom',
-            }
-            }
+  <script>
+    const data = {
+        labels: [
+            'CARES Act',
+            'Omnibus',
+            'Amer. Rescue Act'
+        ],
+        datasets: [{
+            label: 'State Relief Funds',
+            data: [
+                {{cares|safe}},
+                {{omnibus|safe}}, 
+                {{ara|safe}},
+            ],
+            backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)'
+            ],
+            hoverOffset: 4
+        }]
+    };
+
+    const config = {
+        type: 'pie',
+        data: data,
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: 'Relief Funds by Bill',
+              font:{size: 20}, 
+            },
+            legend: {
+              display: true,
+              position: 'bottom',
+            },
           }
-  });
-  </script>
+        }
+    };
+
+        // === include 'setup' then 'config' above ===
+      
+var myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+    );
+
+</script>
 
 <div class = "p-2 container-fluid">
   <div class= "text-center">
     <p>
-      <a href="https://www2.ed.gov/about/offices/list/ope/caresact.html">HEERF i data source</a><br>
-      <a href="https://www2.ed.gov/about/offices/list/ope/crrsaa.html">HEERF ii data source</a><br>
-      <a href="https://www.nasfaa.org/news-item/25018/American_Council_on_Education_Estimates_New_HEERF_III_Allocations">HEERF iii data source</a>
+      <a href="https://www2.ed.gov/about/offices/list/ope/allocationstableinstitutionalportion.pdf">HEERF i data source</a><br>
+      <a href="https://www2.ed.gov/about/offices/list/ope/314a1allocationtableheerfii.pdf">HEERF ii data source</a><br>
+      <a href="https://www.acenet.edu/Documents/ARP-HEERF3-Nonprofit-Institutions.pdf">HEERF iii data source</a>
     </p>
   </div>
 </div>
