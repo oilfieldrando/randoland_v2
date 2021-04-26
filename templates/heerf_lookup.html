@@ -97,15 +97,15 @@
       </form>
     </div>
     <div class="col-auto"> 
-      <form method="post" id="inputInst" >
-      {% csrf_token %}
+      <form method="post" action="{% url 'blog:heerf_lookup' %}" id="inputInst">
+        {% csrf_token %}
         <div class="form-group" style="max-width:400px">
-          <label for="inputInst2" class="col-sm-2 col-form-label col-form-label-sm">Institution:</label>
+          <label for="inputInst" class="col-sm-2 col-form-label col-form-label-sm">Institution:</label>
             <select class="form-control form-control-sm" name="inputInst" id="inputInst" onchange="this.form.submit()">
-              <option value="" selected disabled>{{inst}}</option>
-              {% for i in inst_list %}
-              <option>{{i}}</option>
-              {% endfor %}    
+              <option value="" selected disabled>--institution--</option>
+              {% for i in inst_code_set %}
+              <option value="{{i.inst_id}}">{{i.institution}}</option>
+              {% endfor %}
             </select>
         </div>
       </form>

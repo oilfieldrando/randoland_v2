@@ -239,6 +239,14 @@ def heerf_inst(request):
 
     inst_list=heerf_csv[heerf_csv['state_full']==state_name][heerf_csv.columns[1]].tolist()
 
+    inst_code_set = []
+    heerf_csv.sort_values(by=['institution'], inplace=True, ascending=True)
+    inst_data2 = heerf_csv[heerf_csv['state_full']==state_name].iloc[0:].reset_index()
+    
+    for i in range(inst_data2.shape[0]):
+        temp2=inst_data2.loc[i]
+        inst_code_set.append(dict(temp2))
+
     # Institution totals graph   
     inst_data = pd.DataFrame(heerf_csv[heerf_csv['inst_id']==inst_name][heerf_csv.columns[0:]])
     heerf_csv.sort_values(by=['institution'], inplace=True, ascending=True)
@@ -261,7 +269,8 @@ def heerf_inst(request):
     'ara':ara,
     'inst_total':inst_total,
     'endowment':endowment,
-    'inst':inst
+    'inst':inst,
+    'inst_code_set':inst_code_set
     }
     return render(request, 'heerf_lookup.html', context)
 
