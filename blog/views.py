@@ -237,15 +237,9 @@ def heerf_inst(request):
     else:
         inst_name= 215500
 
-    inst_list=heerf_csv[heerf_csv['state_full']==state_name][heerf_csv.columns[1]].tolist()
-
-    inst_code_set = []
-    heerf_csv.sort_values(by=['institution'], inplace=True, ascending=True)
-    inst_data2 = heerf_csv[heerf_csv['state_full']==state_name].iloc[0:].reset_index()
     
-    for i in range(inst_data2.shape[0]):
-        temp2=inst_data2.loc[i]
-        inst_code_set.append(dict(temp2))
+    
+    
 
     # Institution totals graph   
     inst_data = pd.DataFrame(heerf_csv[heerf_csv['inst_id']==inst_name][heerf_csv.columns[0:]])
@@ -257,11 +251,18 @@ def heerf_inst(request):
     ara=inst_data.iloc[0,5]
     inst_total=inst_data.iloc[0,6]
     endowment=inst_data.iloc[0,7]
+
+    inst_code_set = []
+    heerf_csv.sort_values(by=['institution'], inplace=True, ascending=True)
+    inst_data2 = heerf_csv[heerf_csv['state_full']==state_name].iloc[0:].reset_index()
+    
+    for i in range(inst_data2.shape[0]):
+        temp2=inst_data2.loc[i]
+        inst_code_set.append(dict(temp2))
     
     
     context={
     'states':states,
-    'inst_list':inst_list, 
     'state_name':state_name,
     'inst_name':inst_name,
     'cares':cares,

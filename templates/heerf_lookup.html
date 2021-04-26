@@ -102,7 +102,7 @@
         <div class="form-group" style="max-width:400px">
           <label for="inputInst" class="col-sm-2 col-form-label col-form-label-sm">Institution:</label>
             <select class="form-control form-control-sm" name="inputInst" id="inputInst" onchange="this.form.submit()">
-              <option value="" selected disabled>--institution--</option>
+              <option value="" selected disabled>{{inst}}</option>
               {% for i in inst_code_set %}
               <option value="{{i.inst_id}}">{{i.institution}}</option>
               {% endfor %}
