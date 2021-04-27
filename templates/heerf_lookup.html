@@ -131,14 +131,25 @@
         </div>
       </div>
       <div class="col-lg-6">
-        <div class="text-left pt-4 container-fluid">
-          <h2>Total Relief:<br>${{inst_total|floatformat:0|intcomma}}</h2>
-          <h4>&emsp;CARES Act:<br>&emsp;${{cares|floatformat:0|intcomma}}</h4>
-          <h4>&emsp;Omnibus:<br>&emsp;${{omnibus|floatformat:0|intcomma}}</h4>
-          <h4>&emsp;Amer. Resc Act:<br>&emsp;${{ara|floatformat:0|intcomma}}</h4><br>
+        <div class="text-center pt-4 container-fluid">
+       
+          <h2>Total Relief: ${{inst_total|floatformat:0|intcomma}}</h2><br>
+          
+          <h5>CARES Act: ${{cares|floatformat:0|intcomma}}</h5><br>
+          
+          <h5>Omnibus: ${{omnibus|floatformat:0|intcomma}}</h5><br>
+          
+          <h5>Amer. Resc Act: ${{ara|floatformat:0|intcomma}}</h5><br>
+          
           {% if endowment > 0 %}
-          <h2>Endowment:<br>${{endowment|floatformat:0|intcomma}}</h2>
+          
+          <h2>Endowment: ${{endowment|floatformat:0|intcomma}}</h2>
           {% endif %}
+        
+        
+        
+        
+        </div>
         </div>
       </div>
     </div>

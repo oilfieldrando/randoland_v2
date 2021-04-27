@@ -170,6 +170,7 @@ def heerf_state(request):
         state_totals=state_totals.astype({"total_relief":'float',"cares_act":'float',"omnibus":'float',"amer_rescue_act":'float'})
         state_totals=state_totals.sort_values(by='total_relief',ascending=False) 
     state_detail = pd.DataFrame(state_totals[state_totals['state']==state_name][state_totals.columns[0:]])
+    
     cares=state_detail.iloc[0,1]
     omnibus=state_detail.iloc[0,2]
     ara=state_detail.iloc[0,3]
