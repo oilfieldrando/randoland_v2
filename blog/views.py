@@ -88,7 +88,7 @@ def index(request):
 
     return render(request,'index.html',{
         'wastebooks':Wastebook.objects.filter(status=1)[:1],
-        'bill_breakdowns':BillBreakdown.objects.filter(status=1)[:1],
+        'bill_breakdowns':BillBreakdown.objects.filter(status=1)[:3],
         'thinkpieces': Thinkpiece.objects.filter(status=1)[:1],
     
         })
