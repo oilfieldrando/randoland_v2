@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     # My apps
     'blog',
+    'wastebooks',
     'ckeditor',
     'bootstrap4',
     'users',
@@ -166,3 +167,5 @@ if os.environ.get('DEBUG')=='TRUE':
     DEBUG = True
 elif os.environ.get('DEBUG')=='FALSE':
     DEBUG = False
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL= '/'

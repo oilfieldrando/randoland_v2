@@ -1,10 +1,9 @@
+{% extends "base.html" %}
 {% load bootstrap4 %}
 {% load static %}
 {% load humanize %}
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
+
+{% block tags %}
 <meta name ="viewport" content= "width=device-width,initial-scale=1, shrink-to-fit=no">
 
 <!-- Primary Meta Tags -->
@@ -26,55 +25,16 @@
 <meta name="twitter:description" content="Mucking through .gov so you don't have to.">
 <meta name="twitter:image" content="https://d3346f13f1pt3f.cloudfront.net/media/images/heerf_title.png">
 
-{% bootstrap_css %}
-{% bootstrap_javascript jquery='full' %}
+{% endblock tags %}
 
-</head>
 
-<body>
+{% block page_header %}
+<div class="text-center container-fluid">
+  <h2>HEERF Funds Dashboard</h2>
+</div>
+{% endblock page_header %}  
 
-<nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark mb-4 border">
-    
-    <a class="navbar-brand" href="{% url 'blog:home'%}">
-        
-        <img src="https://d3346f13f1pt3f.cloudfront.net/static/logo-banner.png" style= "max-height:30px" alt="...">
-        
-    </a>
-    
-    <button class="navbar-toggler" type="button" data-toggle="collapse"
-    data-target="#navbarCollapse" aria-controls="navbarCollapse"
-    aria-expanded="false" aria-label="Toggle navigation">
-    
-    <span class="navbar-toggler-icon"></span></button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'blog:bill_breakdowns'%}">
-                Breakdowns</a>
-            </li>
-            
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'blog:thinkpieces'%}">
-                Thinkpieces</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'blog:wastebooks'%}">
-                Wastebooks</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'blog:roundups'%}">
-              Weekly Roundup</a>
-            </li>
-        </ul>
-        
-    </div>
-</nav>
-   
-<main role="main" class="p-1 container">
-  <div class="text-center container-fluid">
-    <h2>HEERF Funds Dashboard</h2>
-  </div>
-  <div class="border-bottom"></div>
+{% block content %}
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.1.1/dist/chart.min.js"></script>
   
 
@@ -84,7 +44,7 @@
       <p>Lookup:</p>
     </div>
     <div class="col-auto">
-      <form action="{% url 'blog:heerf_main' %}" method="post" id="inputState" >
+      <form action="{% url 'wastebooks:heerf_main' %}" method="post" id="inputState" >
       {% csrf_token %}
         <div class="form-group" style="max-width:200px">
       
@@ -101,7 +61,7 @@
       </form>
     </div>
     <div class="col-auto"> 
-      <form method="post" action="{% url 'blog:heerf_lookup' %}" id="inputInst" >
+      <form method="post" action="{% url 'wastebooks:heerf_lookup' %}" id="inputInst" >
         {% csrf_token %}
         <div class="form-group" style="max-width:400px">
           
@@ -288,7 +248,7 @@
             {% for i in data %}
               <tr>
                 <td class="text-center align-middle">
-                  <form action="{% url 'blog:heerf_main' %}"  method="post">
+                  <form action="{% url 'wastebooks:heerf_main' %}"  method="post">
                   {% csrf_token %}
                     <button type="submit" name="inputState" value="{{i.state}}" class="btn btn-sm btn-light text-center"><u>{{i.state}}</u>&raquo;</button>
                   </form>  
@@ -414,7 +374,7 @@
           <tr>
           
             <td class="text-center align-middle">
-              <form action="{% url 'blog:heerf_lookup' %}"  method="post">
+              <form action="{% url 'wastebooks:heerf_lookup' %}"  method="post">
               {% csrf_token %}
                 <button type="submit" name="inputInst" value="{{i.inst_id}}" class="btn btn-light text-center"><u>{{i.institution}}&raquo;</u></button>
               </form>
@@ -547,7 +507,7 @@ config
         <tr>
           
           <td class="text-center align-middle">
-            <form action="{% url 'blog:heerf_lookup' %}"  method="post">
+            <form action="{% url 'wastebooks:heerf_lookup' %}"  method="post">
               {% csrf_token %}
               <button type="submit" name="inputInst" value="{{i.inst_id}}" class="btn btn-light text-center"><u>{{i.institution}}&raquo;</u></button>
           </form>
@@ -565,8 +525,8 @@ config
   </div>
 </div>
 
-
 {% endif %}
+
 <div class = "p-2 container-fluid">
   <div class= "text-center">
     <p>
@@ -577,15 +537,4 @@ config
   </div>
 </div>
 
-<div class="jumbotron">
-  <h1 class="display-4">Donate/Give Rando a job!</h1>
-  <p class="lead">Rando is currently looking for oilfield work. Floorhand, company man, engineer, service hand, open to anything.</p>
-  <hr class="my-2">
-  <p>Send any opportunities to oilfield_rando@protonmail.com, they are greatly appreciated</p>
-  <p>Fund my research by donating to my CashApp:<a href="https://cash.app/$OilfieldRando">&nbsp;cash.app/$OilfieldRando</a></p>
-</div>
-</main>
-   
-</body>
-
-</html>
+{% endblock content %}

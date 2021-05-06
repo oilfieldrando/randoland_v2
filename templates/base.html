@@ -48,6 +48,25 @@
                 Weekly Roundup</a>
             </li>
         </ul>
+        <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <span class="navbar-text">Welcome, {{user.username}}.</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:logout' %}"
+                    >Log Out&raquo;</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:register' %}"
+                    >Register</a>
+                </li>
+                    <a class="nav-link" href="{% url 'users:login' %}"
+                    >Log in</a>
+                </li>
+            {% endif %}
+        </ul>
         
     </div>
 </nav>
@@ -68,7 +87,11 @@
   <p class="lead">Rando is currently looking for oilfield work. Floorhand, company man, engineer, service hand, open to anything.</p>
   <hr class="my-2">
   <p>Send any opportunities to oilfield_rando@protonmail.com, they are greatly appreciated</p>
-  <p>Fund my research by donating to my CashApp:<a href="https://cash.app/$OilfieldRando">&nbsp;cash.app/$OilfieldRando</a></p>
+  <p>Donate to my research:<br>
+    &emsp;CashApp:<a href="https://cash.app/$OilfieldRando">&nbsp;cash.app/$OilfieldRando</a><br>
+    &emsp;Bitcoin: 3KUcv77Sz63QTE8GTP5W7bNNU6GVETkYQh<br>
+    &emsp;Ethereum: 0xaE086E57DA64390A5FA4e30FC59009bF0999A670
+  </p>
 </div>
 </main>
    

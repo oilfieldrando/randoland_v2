@@ -22,10 +22,7 @@ urlpatterns = [
     path('wastebooks/<int:id>/edit', views.edit_wastebook, name='edit_wastebook'),
     path('wastebooks/<int:id>/delete', views.delete_wastebook, name='delete_wastebook'),
 
-    # HEERF 
-    path('heerf/', views.heerf, name='heerf'),
-    path('heerf-state/', views.heerf_state, name='heerf_main'),
-    path('heerf-inst/', views.heerf_inst, name='heerf_lookup'),
+    
 
 
     # Roundup

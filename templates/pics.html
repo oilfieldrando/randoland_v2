@@ -52,11 +52,12 @@
 {% endblock page_header %}
 
 {% block content %}
-
+<div class="text-center container-fluid">   
 {% for p in pic %}
-<span class="border">   
-  <img src="{{p.image.url}}" class="figure-img img-fluid text-center" alt="..."> 
+<span class="border">
+  
+  <img src="{{p.image.url}}" class="img-fluid" alt="Responsive image"> 
 </span>
 {% endfor %}
-
+</div>
 {% endblock content %}
