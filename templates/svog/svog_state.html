@@ -104,7 +104,7 @@ th {
     <h2>{{state}} SVOG Data</h2> 
   </div>
   
-  <div class="pb-2 container-fluid text-center">      
+  <div class="pb-2 container-fluid text-center" style="max-width:500px;">      
     
       <table class="m-auto text-center mt-2 table table-bordered">
         <tbody class="thead-dark">
@@ -165,7 +165,7 @@ th {
               <thead class="thead-dark">
                 <tr>
                   <th class="text-center" scope="col">Venue</th>
-                  <th scope="col">City</th>
+                  
                   <th scope="col">Grant</th>
                 </tr>
               </thead>
@@ -176,12 +176,6 @@ th {
                     <form action="{% url 'wastebooks:svog_venue' %}"  method="post">
                       {% csrf_token %}
                       <button type="submit" name="inputVenue" value="{{i.inst_id}}" class="btn btn-sm btn-light text-center"><u>{{i.venue}}</u></button>
-                    </form>  
-                  </td>
-                  <td class="text-center align-middle">
-                    <form action="{% url 'wastebooks:svog_city' %}"  method="post">
-                      {% csrf_token %}
-                      <button type="submit" name="inputCity" value="{{i.city_id}}" class="btn btn-sm btn-light text-center"><u>{{i.city}}</u></button>
                     </form>  
                   </td>
                   <td class="text-center align-middle">${{i.amount|floatformat:0|intcomma}}</td>               
