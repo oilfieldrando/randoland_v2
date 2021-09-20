@@ -88,12 +88,16 @@ def index(request):
 
     return render(request,'index.html',{
         'wastebooks':Wastebook.objects.filter(status=1)[:1],
-        'bill_breakdowns':BillBreakdown.objects.filter(status=1)[:3],
+        'bill_breakdowns':BillBreakdown.objects.filter(status=1)[:1],
         'thinkpieces': Thinkpiece.objects.filter(status=1)[:1],
     
         })
 
+# Donate
 
+def donate(request):
+    return render(request,'donate.html',{})
+    
 #Admin Home
 
 @login_required
@@ -544,3 +548,5 @@ def delete_roundup(request, slug):
         'roundup':roundup
         }
     return render(request, 'roundup_delete.html', context)
+
+

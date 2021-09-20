@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    
 
     # My apps
     'blog',
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'users',
     'storages',
     'imagekit',
+    'mptt',
 ]
 
 MIDDLEWARE = [
@@ -151,12 +153,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 #MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_URL = 'users:login'
 
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+SECURE_SSL_REDIRECT = False
 SECURE_HSTS_SECONDS = 31536000 # 1 yr
-SECURE_HSTS_PRELOAD = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = False
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
 
 # Heroku settings
 import django_heroku
@@ -169,3 +171,4 @@ elif os.environ.get('DEBUG')=='FALSE':
     DEBUG = False
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL= '/'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

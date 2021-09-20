@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+<br><h2>Registration email sent, check for activation link.</h2><br>
+<a href="{% url 'login' %}">Go to Login</a>
+<br><br>
+{% endblock content %}

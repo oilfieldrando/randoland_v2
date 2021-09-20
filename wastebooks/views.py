@@ -1,13 +1,15 @@
 from django.shortcuts import render
 import pandas as pd
 import numpy as np
+import json
 
 # Create your views here.
 
 #HEERF
 
-heerf_csv=pd.read_csv('https://raw.githubusercontent.com/oilfieldrando/HEERF_final/main/heerf_final2.csv')
+
 def heerf(request):
+    heerf_csv=pd.read_csv('https://raw.githubusercontent.com/oilfieldrando/HEERF_final/main/heerf_final2.csv')
     states=['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Marshall Islands', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Virgin Islands', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia','Wyoming','Wisconsin','Palau']
     state_name=request.POST.get('inputState')
     
@@ -49,8 +51,7 @@ def heerf(request):
             view_type = 'chart3'
 
     
-    inst_name=request.POST.get('inputInst')
-    heerf_csv=pd.read_csv('https://raw.githubusercontent.com/oilfieldrando/HEERF_final/main/heerf_final2.csv')  
+    inst_name=request.POST.get('inputInst')  
     heerf_csv.sort_values(by=['institution'], inplace=True, ascending=True)
     inst_list=heerf_csv[heerf_csv['state_full']==state_name][heerf_csv.columns[1]].tolist()
     inst_count=len(inst_list)
@@ -105,7 +106,7 @@ def heerf(request):
     for i in range(rich50.shape[0]):
         temp2=rich50.loc[i]
         rich50_data.append(dict(temp2))
- 
+    
      
     context={
         'inst_list':inst_list,
@@ -210,6 +211,7 @@ def heerf_state(request):
     return render(request, 'heerf_main.html', context)
 
 def heerf_inst(request):
+    heerf_csv=pd.read_csv('https://raw.githubusercontent.com/oilfieldrando/HEERF_final/main/heerf_final2.csv')
 
     # Inputs
     states=['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Marshall Islands', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Virgin Islands', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia','Wyoming','Wisconsin','Palau']
@@ -263,5 +265,277 @@ def heerf_inst(request):
     return render(request, 'heerf_lookup.html', context)
 
 
-# Coronavirus Relief Fund 1
+
+# SVOG
+
+def svog(request):
+    # Initialize
+    url='https://raw.githubusercontent.com/oilfieldrando/svog/main/svogdata_v11.csv'
+    svog = pd.read_csv(url)
+    if request.POST.get('data_view'):
+        data_view = request.POST.get('data_view')
+        if request.POST.get('data_view')=='Totals by State':
+            view_type = 'states_chart'
+        elif request.POST.get('data_view')=='$10 Million Club':
+            view_type = 'max_table'
+            
+    else:
+        data_view = 'Totals by State'
+        view_type = 'states_chart'
+
+
+    if request.POST.get('view_type1'):
+        data_view = 'Totals by State'
+        view_type = request.POST.get('view_type1')
+
+
+    #Lookup
+    state_list = svog[svog.columns[6]].tolist()
+    state_list = list(dict.fromkeys(state_list))
+    state = request.POST.get('inputState')
+    city = request.POST.get('inputCity')
+    
+    
+
+    if data_view == 'Totals by State':
+        # State totals chart
+        state_svog = pd.DataFrame({'state':[],'total':[]})
+        for x in state_list:
+            state_svog_data=svog[svog['state_full']==x]
+            state_svog=state_svog.append({'state':x,'total':state_svog_data.iloc[:,[0]].sum()}, ignore_index=True)
+            state_svog=state_svog.astype({"total":'float'})
+            state_svog=state_svog.sort_values(by='total',ascending=False)    
+            state_svog_labels = list(state_svog['state'].values)
+            state_svog_totals = list(state_svog['total'].values)
+    
+         # State totals table
+        svogData=[]
+        for i in range(state_svog.shape[0]):
+            temp=state_svog.loc[i]
+            svogData.append(dict(temp))
+        
+        context={
+        'state_list':state_list,
+        'state':state,
+        'state_svog_labels':state_svog_labels,
+        'state_svog_totals':state_svog_totals,
+        'svogData':svogData,
+        'data_view':data_view,
+        'view_type':view_type,
+        
+        }
+
+    else:
+        # Max grantees
+        max_grants = svog[svog['amount']==10000000].iloc[0:].reset_index()
+        max_grants_set=[]
+        for i in range(max_grants.shape[0]):
+            temp2=max_grants.loc[i]
+            max_grants_set.append(dict(temp2))
+
+        context={
+        'state_list':state_list,
+        'state':state,       
+        'data_view':data_view,
+        'view_type':view_type,
+        'max_grants_set':max_grants_set,
+        }
+    
+
+    
+
+    return render(request, 'svog/initial.html', context)
+
+def svog_state(request):
+    # Initialize
+    url='https://raw.githubusercontent.com/oilfieldrando/svog/main/svogdata_v11.csv'
+    svog = pd.read_csv(url)
+    
+    if request.POST.get('data_view'):
+        data_view = request.POST.get('data_view')
+    else:
+        data_view = 'Top City Payouts'
+
+    if request.POST.get('inputState'):
+        state = request.POST.get('inputState')
+    else:
+        state = 'New York'
+
+    # State/City select list
+    state_list = svog[svog.columns[6]].tolist()
+    state_list = list(dict.fromkeys(state_list))
+    city = request.POST.get('inputCity')
+    city_set_raw=pd.DataFrame(svog[svog['state_full']==state].iloc[:,3:5],columns=['city','city_id'])
+    city_set=city_set_raw.drop_duplicates(subset=['city_id']).reset_index()
+    city_list_order = city_set.reset_index().to_json(orient = 'records')
+    city_list = []
+    city_list = json.loads(city_list_order)
+    venue_set = svog[svog['state_full']==state].reset_index()
+    venue_list = venue_set.sort_values(by='venue', ascending=True)
+    venue_list_tableset = venue_list.reset_index().to_json(orient = 'records')
+    venues_list_data = []
+    venue_list_data = json.loads(venue_list_tableset)
+
+    # Variables
+    state_total = svog[svog['state_full']==state].iloc[:,[0]].sum()
+    total_grantees = total_grantees = len(svog[svog['state_full']==state][svog.columns[1]].tolist())
+    percent_share = (state_total/(svog['amount'].sum()))*100
+
+    if data_view == 'Top City Payouts':
+        # Top Recipients by City table
+        cities = list(city_set['city_id'].values)
+        city_svog = pd.DataFrame({'city':[],'city_id':[],'total':[]})
+        for x in cities:
+            city_svog_data = svog[svog['city_id']==x]
+            city_svog = city_svog.append({'city':city_svog_data.iloc[0,3],'city_id':x,'total':city_svog_data.iloc[:,[0]].sum()},ignore_index=True)
+            city_svog = city_svog.astype({'total':'float','city_id':'int'})
+            city_svog = city_svog.sort_values(by=['total'], ascending=False)
+            city_svog =  city_svog.iloc[0:20,:]
+    
+        city_table = city_svog.reset_index().to_json(orient = 'records')
+        data = []
+        data = json.loads(city_table)
+
+        context={
+        'state_list':state_list,
+        'city_list':city_list,
+        'state':state,
+        'city':city,
+        'data':data,
+        'data':data,
+        'venue_list_data':venue_list_data,
+        'data_view':data_view,
+        'state_total':state_total,
+        'total_grantees':total_grantees,
+        'percent_share':percent_share,
+        
+    }
+    else:
+        # Top Recipients Venues in State
+        top_25=svog[svog['state_full']==state].sort_values(by=['amount'], ascending=False).iloc[:25].reset_index()
+        top_25_tableset = top_25.reset_index().to_json(orient = 'records')
+        top_25_data = []
+        top_25_data = json.loads(top_25_tableset)
+
+        context={
+        'state_list':state_list,
+        'city_list':city_list,
+        'state':state,
+        'city':city,
+        'top_25_data':top_25_data,
+        'data_view':data_view,
+        'venue_list_data':venue_list_data,
+    }
+    
+    
+  
+    return render(request, 'svog/svog_state.html', context)
+
+def svog_city(request):
+    # initialize
+    url='https://raw.githubusercontent.com/oilfieldrando/svog/main/svogdata_v11.csv'
+    svog = pd.read_csv(url)
+
+    if request.POST.get('inputCity'):
+        city = request.POST.get('inputCity')
+    else:
+        city = str(2508)
+    
+    venue_set = svog[svog['city_id']==int(city)].reset_index()
+    state = venue_set.iloc[0,7]
+    city_name = venue_set.iloc[0,4]
+
+    # Lookup
+    state_list = svog[svog.columns[6]].tolist()
+    state_list = list(dict.fromkeys(state_list))
+    city_set_raw=pd.DataFrame(svog[svog['state_full']==state].iloc[:,3:5],columns=['city','city_id'])
+    city_set=city_set_raw.drop_duplicates(subset=['city_id']).reset_index()
+    city_list_order = city_set.reset_index().to_json(orient = 'records')
+    city_list = []
+    city_list = json.loads(city_list_order)
+    venue_list = venue_set.sort_values(by='venue', ascending=True)
+    venue_list_tableset = venue_list.reset_index().to_json(orient = 'records')
+    venues_list_data = []
+    venue_list_data = json.loads(venue_list_tableset)
+
+    # Variables
+    city_total = venue_set.iloc[:,[1]].sum()
+    city_grantees  = venue_set.shape[0]
+
+    # Top venues
+    venues_desc = venue_set.sort_values(by='amount', ascending=False)
+    venues_desc_tableset = venues_desc.reset_index().to_json(orient = 'records')
+    venues_desc_data = []
+    venues_desc_data = json.loads(venues_desc_tableset)
+
+
+    context={
+        'state_list':state_list,
+        'state':state,
+        'city_name':city_name,
+        'venues_desc_data':venues_desc_data,
+        'city_list':city_list,
+        'venue_list_data':venue_list_data,
+        'city_total':city_total,
+        'city_grantees':city_grantees,
+  
+    }
+
+    return render(request, 'svog/svog_city.html', context)
+
+def svog_venue(request):
+    # Initialize
+    url='https://raw.githubusercontent.com/oilfieldrando/svog/main/svogdata_v11.csv'
+    svog = pd.read_csv(url)
+
+    if request.POST.get('inputVenue'):
+        venue=(request.POST.get('inputVenue'))
+    
+    else:
+        venue= 7928
+    
+    # Venue Data
+    venue_data = svog[svog['inst_id']==int(venue)].reset_index()
+    venue_detail=[]
+    for i in range(venue_data.shape[0]):
+            temp2=venue_data.loc[i]
+            venue_detail.append(dict(temp2))
+    
+
+    
+    # Lookup
+    state  = venue_data.iloc[0,7]
+    city_name = venue_data.iloc[0,4]
+    city_id = venue_data.iloc[0,5]
+    venue_name = venue_data.iloc[0,2]
+    state_list = svog[svog.columns[6]].tolist()
+    state_list = list(dict.fromkeys(state_list))
+    city_set_raw=pd.DataFrame(svog[svog['state_full']==state].iloc[:,3:5],columns=['city','city_id'])
+    city_set=city_set_raw.drop_duplicates(subset=['city_id']).reset_index()
+    city_list_order = city_set.reset_index().to_json(orient = 'records')
+    city_list = []
+    city_list = json.loads(city_list_order)
+    venue_set = svog[svog['city_id']==int(city_id)].reset_index()
+    venue_list = venue_set.sort_values(by='venue', ascending=True)
+    venue_list_tableset = venue_list.reset_index().to_json(orient = 'records')
+    venue_list_data = []
+    venue_list_data = json.loads(venue_list_tableset)
+
+    context={
+        'venue_detail':venue_detail,
+        'state_list':state_list,
+        'city_list':city_list,
+        'venue_list_data':venue_list_data,
+        'state':state,
+        'city_name':city_name,
+        'venue_name':venue_name,
+
+    }
+    return render(request, 'svog/svog_venue.html', context)
+
+
+
+
+
+
 

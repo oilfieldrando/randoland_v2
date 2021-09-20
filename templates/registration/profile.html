@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block page_header %}
+<div class="text-center">
+    <h4>Manage Account</h4>
+  </div>
+{% endblock page_header %}
+
+{% block content %}
+<div class="p-2 mb-2 container rounded" style="border:1px solid #070015;max-width:400px">
+    <h6>Username: {{user.username}}</h6>
+    
+    <a href="{% url 'password_change'%}" class="alert-link">Change Password</a><br>
+    <a href="{% url 'logout' %}" class="alert-link">Logout</a><br>
+    
+    
+</div>
+{% endblock content %}

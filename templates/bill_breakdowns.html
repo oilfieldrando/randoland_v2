@@ -25,15 +25,25 @@
 
 
 {% block page_header %}
-    <h4>Breakdowns</h4>
+<div class="alert alert-success text-center shadow" role="alert">
+  <a href="{% url 'blog:donate'%}" class="alert-link">Click to donate to RandoLand, it's just some rando with a day job</a>
+</div>
+<div class="pb-2"><h3>Breakdowns</h3></div>
+    
 {% endblock page_header %}
 
 {% block content %}
-
+<style>
+  a:hover
+  {text-decoration:none;}
+  .card:hover{
+  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+</style>
 
 {% for bill_breakdown in bill_breakdowns %}
     
-    <div class="card mb-3 p-2" style="max-width: 540px;">
+    <div class="card mb-3 p-2 bg-light">
         <a href="{% url 'blog:bill_breakdown' bill_breakdown.slug %}">
         <div class="row no-gutters align-items-center">
           <div class="col-md-4">
@@ -41,8 +51,8 @@
           </div>
           <div class="col-md-8">
             <div class="card-body">
-              <h5 class="card-title">{{bill_breakdown.title}}</h5>
-              <p class="card-text">{{bill_breakdown.blurb}}</p>
+              <h5 class="card-title text-dark">{{bill_breakdown.title}}</h5>
+              <p class="card-text text-dark">{{bill_breakdown.blurb}}</p>
             </div>
           </div>
         </div>

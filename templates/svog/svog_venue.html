@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% load static %}
+{% load humanize %}
+
+{% block tags %}
+
+<!-- Primary Meta Tags -->
+<title>SVOG Dashboard</title>
+<meta name="title" content="SVOG Dashboard">
+<meta name="description" content="Shuttered Venue Operators Grantees">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.randoland.us/svog_venue/">
+<meta property="og:title" content="SVOG Dashboard">
+<meta property="og:description" content="Shuttered Venue Operators Grantees">
+<meta property="og:image" content="https://d3346f13f1pt3f.cloudfront.net/static/svog.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://www.randoland.us/svog_venue">
+<meta name="twitter:title" content="Shuttered Venue Operators Grantees">
+<meta name="twitter:description" content="Mucking through .gov so you don't have to.">
+<meta name="twitter:image" content="https://d3346f13f1pt3f.cloudfront.net/static/svog.png">
+
+{% endblock tags %}
+
+
+{% block page_header %}
+<div class="alert alert-success text-center shadow" role="alert">
+  <a href="{% url 'blog:donate'%}" class="alert-link">Click to donate to RandoLand, it's just some rando with a day job</a>
+</div>
+  
+  <div class="text-center container-fluid">
+    <h2>Shuttered Venue Operators Grantees</h2>
+  </div>
+{% endblock page_header %}
+
+{% block content %}
+
+<div class="container-fluid text-center">
+  <div class="row">
+      <div class="col-auto">
+        <div class="text-center">
+        <form action="{% url 'wastebooks:svog_state' %}" method="post" id="inputState" >
+        {% csrf_token %}
+          <div class="form-group" style="max-width:200px">
+            <label for="inputState" class="col-form-label col-form-label-sm">State/Territory:</label>
+            <select class="form-control form-control-sm" name="inputState" id="inputState" onchange="this.form.submit()">
+              <option>{{state}}</option>
+              {% for i in state_list %}
+              <option>{{i}}</option>
+              {% endfor %}
+            </select>
+              </select>
+          </div>
+        </form>
+      </div>
+      </div>
+    
+    <div class="col-auto"> 
+      <form method="post" action="{% url 'wastebooks:svog_city' %}" id="inputCity">
+          {% csrf_token %}
+          <div class="form-group" style="max-width:400px">
+            <label for="inputCity" class="col-form-label col-form-label-sm">City:</label>
+              <select class="form-control form-control-sm" name="inputCity" id="inputCity" onchange="this.form.submit()">
+                <option>{{city_name}}</option>
+                {% for i in city_list %}
+                <option value="{{i.city_id}}">{{i.city}}</option>
+                {% endfor %}
+              </select>
+          </div>
+      </form>
+    </div>
+    <div class="col-auto" style="max-width:300px"> 
+      <form method="post" action="{% url 'wastebooks:svog_venue' %}" id="inputVenue" >
+          {% csrf_token %}
+          <div class="form-group" style="max-width:400px">
+            <label for="inputVenue" class="col-form-label col-form-label-sm">Venue:</label>
+              <select class="form-control form-control-sm" name="inputVenue" id="inputVenue" onchange="this.form.submit()">
+                <option>{{venue_name}}</option>
+                {% for i in venue_list_data %}
+                <option value="{{i.inst_id}}">{{i.venue}}</option>
+                {% endfor %}
+            </select>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="border-bottom"></div>
+<div class="p-2 mb-4 container">
+    {% for i in venue_detail %}
+    <div class="text-center">
+      <h4>Grant Detail</h4>
+    </div>
+    
+      <table class="m-auto text-center mt-2 table table-bordered" style="max-width:600px;">
+        
+            <tr>
+              
+            </tr>
+      
+        <tbody>
+          <thead class="thead-dark">
+            <tr class="table-active">
+              <th scope="row" class="align-middle">Grantee</th>
+              <td class="text-center align-middle"><b>{{i.venue}}</b></td>               
+            </tr>
+            <tr class="table-active">
+                <th scope="row" class="align-middle">Grant Amount</th>
+                <td class="text-center align-middle"><b>${{i.amount|floatformat:0|intcomma}}</b></td>               
+            </tr>
+            <tr class="table-active">
+              <th scope="row" class="align-middle">Venue Type</th>
+              <td class="text-center align-middle"><b>{{i.type}}</b></td>               
+            </tr>
+            <tr class="table-active">
+                <th scope="row" class="align-middle">Address</th>
+                <td class="text-center align-middle"><b>{{i.address}}<br>{{i.city}}, {{i.state}} {{i.zip}}</b></td>               
+            </tr>
+          </thead>      
+        </tbody>
+      </table>
+    
+    {% endfor %}
+  </div>
+{% endblock content %}

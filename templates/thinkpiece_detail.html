@@ -10,7 +10,7 @@
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.randoland.us/thinkpieces/{{thinkpiece.slug}}">
-<meta property="og:title" content="{{thinkpiece.title}}">
+<meta property="og:title" content=" Thinkpiece: {{thinkpiece.title}}">
 <meta property="og:description" content="{{thinkpiece.blurb}}">
 <meta property="og:image" content="{{thinkpiece.image.url}}">
 
@@ -24,6 +24,9 @@
 {% endblock tags %}
 
 {% block page_header %}
+<div class="alert alert-success text-center shadow" role="alert">
+  <a href="{% url 'blog:donate'%}" class="alert-link">Click to donate to RandoLand, it's just some rando with a day job</a>
+</div>
 
 <div class="row mb-2">
   <div class="col text-left">
@@ -48,6 +51,8 @@
 {% endblock page_header %}
 
 {% block content %}
+
+
 <div class="card mb-3 p-3">
   <img class="card-img-top" src="{{thinkpiece.image.url}}" alt="Card image cap">
   <div class="card-body">

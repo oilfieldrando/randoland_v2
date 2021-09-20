@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% load static %}
+{% load humanize %}
+
+{% block tags %}
+
+<!-- Primary Meta Tags -->
+<title>SVOG Dashboard</title>
+<meta name="title" content="SVOG Dashboard">
+<meta name="description" content="Shuttered Venue Operators Grantees">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.randoland.us/svog/">
+<meta property="og:title" content="SVOG Dashboard">
+<meta property="og:description" content="Shuttered Venue Operators Grantees">
+<meta property="og:image" content="https://d3346f13f1pt3f.cloudfront.net/static/svog.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://www.randoland.us/svog">
+<meta name="twitter:title" content="Shuttered Venue Operators Grantees">
+<meta name="twitter:description" content="Mucking through .gov so you don't have to.">
+<meta name="twitter:image" content="https://d3346f13f1pt3f.cloudfront.net/static/svog.png">
+
+{% endblock tags %}
+
+
+{% block page_header %}
+<div class="alert alert-success text-center shadow" role="alert">
+  <a href="{% url 'blog:donate'%}" class="alert-link">Click to donate to RandoLand, it's just some rando with a day job</a>
+</div>
+
+<div class="text-center container-fluid">
+  <h2>Shuttered Venue Operators Grantees</h2><br>
+  <p>Authorized by the American Rescue Act in March 2021 on a party line vote to give assistance to businesses and venues closed during coronavirus.</p>
+</div>
+{% endblock page_header %}  
+
+{% block content %}
+
+<div class="container-fluid text-center">
+  <div class="row">
+      <div class="col-auto">
+        <div class="text-center">
+        <form action="{% url 'wastebooks:svog_state' %}" method="post" id="inputState" >
+        {% csrf_token %}
+          <div class="form-group" style="max-width:200px">
+            <label for="inputState" class="col-form-label col-form-label-sm">State/Territory:</label>
+              <select class="form-control form-control-sm" name="inputState" id="inputState" onchange="this.form.submit()">
+                <option value="" selected disabled>--select state--</option>
+              {% for state in state_list %}
+              <option>{{state}}</option>
+              {% endfor %}
+              </select>
+          </div>
+        </form>
+      </div>
+      </div>
+    
+    <div class="col-auto"> 
+      <form method="post" action="{% url 'wastebooks:svog_city' %}" id="inputCity">
+          {% csrf_token %}
+          <div class="form-group" style="max-width:400px">
+            <label for="inputCity" class="col-form-label col-form-label-sm">City:</label>
+            <select class="form-control form-control-sm" name="inputCity" id="inputCity" onchange="this.form.submit()">
+              <option value="" selected disabled>--select city--</option>
+            </select>
+          </div>
+      </form>
+    </div>
+    <div class="col-auto" style="max-width:300px"> 
+      <form method="post" action="{% url 'wastebooks:svog_venue' %}" id="inputVenue" >
+          {% csrf_token %}
+          <div class="form-group" style="max-width:400px">
+            <label for="inputVenue" class="col-form-label col-form-label-sm">Venue:</label>
+            <select class="form-control form-control-sm" name="inputCity" id="inputCity" onchange="this.form.submit()">
+              <option value="" selected disabled>--select venue--</option>
+            </select>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="border-bottom"></div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.1.1/dist/chart.min.js"></script>
+
+<div class="container-fluid">
+  <div class="row align-items-center">
+    <div class="col-auto" style="float:left">
+      <form method="post" id="data_view" >
+      {% csrf_token %}
+        <div class="pt-4 form-group" style="max-width:200px">
+            <select class="form-control" name="data_view" id="data_view" onchange="this.form.submit()">
+              <option value="" selected disabled>--Data Overviews--</option>
+              <option>Totals by State</option>
+              <option>$10 Million Club</option>         
+            </select>
+        </div>
+      </form>
+    </div>
+    
+    
+    <div class="pt-2 col-auto" style="float:left">
+      <form method="post">
+        {% csrf_token %}
+        <div class="btn-group" role="group" aria-label="view_select">
+          
+        {% if data_view == 'Totals by State' %}
+          <button type="submit"  name="view_type1" data-toggle="button" aria-pressed="false" autocomplete="off" value="states_chart" class="btn btn-primary text-left">Chart</button>
+          <button type="submit"  name="view_type1" data-toggle="button" aria-pressed="false" autocomplete="off" value="states_table" class="btn btn-secondary text-left">Table</button>
+           
+        {% endif %}
+        </div>
+      </form>
+    </div>
+    
+  </div>
+</div>
+
+{% if data_view == 'Totals by State' and view_type == 'states_chart' %}
+
+<div class="p-2 container-fluid">  
+  <div>
+    <canvas id="myChart" style="height: 1600px;"></canvas>
+  </div>
+</div>
+
+<script>
+const labels = {{state_svog_labels|safe}};
+const data = {
+  labels: labels,
+  datasets: [{
+    axis: 'y',
+    label: 'Total Grants',
+    data: {{state_svog_totals|safe}},
+    fill: false,
+    backgroundColor: ['rgba(2, 117, 216, 0.8)'],
+    borderColor: ['rgb(2, 117, 216)'],
+    borderWidth: 1,            
+  },]
+};
+      
+      
+      
+const config = {
+  type: 'bar',
+  data,
+  options: {
+    plugins: {
+      legend: {
+        display:true,
+      },
+      title: {
+        display: true,
+        text: 'Grant Totals by State',
+        font:{size: 30},
+      },
+      datalabels: {
+        display: true,
+        align: 'center',
+        anchor: 'center'       
+      },
+               
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            var label = context.dataset.label || '';
+    
+            if (label) {label += ': ';
+            }
+            if (context.parsed.x !== null) {
+              label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD',maximumFractionDigits:0 }).format(context.parsed.x);
+            }
+            return label;
+          }
+        }
+      }
+    },
+           
+    maintainAspectRatio: false,
+    indexAxis: 'y',
+    scales: {
+      x: {
+        ticks: {
+          callback: function(value, index, values) {
+            if (parseInt(value) >= 1000) {
+            return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            } else {
+            return '$' + value;
+            }
+            },
+          },
+              
+          display: true,
+       
+        },
+      y: {},     
+    }
+  }
+};
+    
+  var myChart = new Chart(
+  document.getElementById('myChart'),
+  config
+  );
+</script>
+
+{% endif %}   
+
+{% if data_view == 'Totals by State' and view_type == 'states_table' %}
+
+<div class="p-2 container">
+  <div class="text-center">
+    <h4>Grant Totals By State</h4>
+  </div>
+  <div class="table-responsive">
+    <table class="m-auto text-center mt-2 table table-sm table-bordered" style="max-width:400px;">
+      <thead class="thead-dark">
+        <tr>
+          <th class="text-center" scope="col">State</th>
+          <th scope="col">Total Grants</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for i in svogData %}
+            <tr>
+              <td class="text-center align-middle">
+                <form action="{% url 'wastebooks:svog_state' %}"  method="post">
+                {% csrf_token %}
+                  <button type="submit" name="inputState" value="{{i.state}}" class="btn btn-sm btn-light text-center"><u>{{i.state}}</u>&raquo;</button>
+                </form>  
+              </td>
+              <td class="text-center align-middle">${{i.total|floatformat:0|intcomma}}</td>               
+              </tr>
+          {% endfor %}
+          </tbody>
+    </table>
+  </div>
+</div>
+
+{% endif %} 
+
+{% if data_view == '$10 Million Club' %}
+
+<div class="p-2 container">
+  <div class="text-center">
+    <h4>$10 Million Club</h4>
+  </div>
+  <div class="table-responsive table-striped">
+    <table class="m-auto text-center mt-2 table table-sm table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th class="text-center" scope="col">Venue</th>
+          <th scope="col">Location</th>
+          <th scope="col">Award</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for i in max_grants_set %}
+            <tr>
+              <td class="text-center align-middle">
+                <form action="{% url 'wastebooks:svog_venue' %}"  method="post">
+                  {% csrf_token %}
+                    <button type="submit" name="inputVenue" value="{{i.inst_id}}" class="btn btn-sm btn-light text-center"><u>{{i.venue}}</u></button>
+                  </form>
+              </td>
+              <td class="text-center align-middle">{{i.city}}, {{i.state_full}}</td>
+              <td class="text-center align-middle">${{i.amount|floatformat:0|intcomma}}</td>           
+              </tr>
+          {% endfor %}
+          </tbody>
+    </table>
+  </div>
+</div>
+
+{% endif %}
+{% endblock content %}

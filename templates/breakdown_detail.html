@@ -10,7 +10,7 @@
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.randoland.us/bill_breakdowns/{{bill_breakdown.slug}}">
-<meta property="og:title" content="{{bill_breakdown.title}}">
+<meta property="og:title" content="Breakdown: {{bill_breakdown.title}}">
 <meta property="og:description" content="{{bill_breakdown.blurb}}">
 <meta property="og:image" content="https://d3346f13f1pt3f.cloudfront.net/static/logolarge.png">
 
@@ -24,6 +24,10 @@
 {% endblock tags %}
 
 {% block page_header %}
+<div class="alert alert-success text-center shadow" role="alert">
+  <a href="{% url 'blog:donate'%}" class="alert-link">Click to donate to RandoLand, it's just some rando with a day job</a>
+</div>
+
 <div class="row">
   <div class="col text-left">
     <a href="{% url 'blog:bill_breakdowns' %}" class="btn btn-secondary">&laquo;Breakdowns</a>

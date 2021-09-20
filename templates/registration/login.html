@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block page_header %}
+<div class="text-center">
+    <h4>User Login</h4>
+</div>
+{% endblock page_header %}
+
+{% block content %}
+<div class="p-2 mb-2 container rounded" style="border:1px solid #070015;max-width:400px">
+    <form method="post" action="{% url 'login' %}" class="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+        <button name="submit" class="btn btn-primary">Log in</button>
+    {% endbuttons %}
+
+
+        <input type="hidden" name="next" value = "{% url 'blog:home' %}"/>
+    </form>
+    <a href="{% url 'users:password_reset'%}" class="alert-link">Forgot Password?</a><br>
+    <a href="{% url 'users:register' %}" class="alert-link">New user? Register for an account</a>
+
+</div>
+
+{% endblock content %}

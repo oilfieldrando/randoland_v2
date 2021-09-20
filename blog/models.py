@@ -38,7 +38,7 @@ class Thinkpiece(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
 
     image_thumbnail = ImageSpecField(source='image',
-                                     processors=[ResizeToFill(286,180)],
+                                     processors=[ResizeToFill(269,200)],
                                      format='JPEG',
                                      options={'quality':60})
 
@@ -67,9 +67,9 @@ class BillBreakdown(models.Model):
                               verbose_name='Image',blank=True, null=True)
     status = models.IntegerField(choices=STATUS, default=0)
     image_thumbnail = ImageSpecField(source='image',
-                                     processors=[ResizeToFill(1200,630)],
+                                     processors=[ResizeToFill(269,200)],
                                      format='JPEG',
-                                     options={'quality':100})
+                                     options={'quality':60})
 
        
     class Meta:

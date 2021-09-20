@@ -24,7 +24,12 @@
 {% endblock tags %}
 
 {% block page_header %}
-    <h4>Weekly Roundups</h4>
+
+<div class="alert alert-success text-center shadow" role="alert">
+    <a href="{% url 'blog:donate'%}" class="alert-link">Click to donate to RandoLand, it's just some rando with a day job</a>
+  </div>
+<div class="pb-2"><h3>Weekly Roundups</h3></div>
+    
 {% endblock page_header %}
 
 {% block content %}
@@ -33,10 +38,9 @@
 
 {% for roundup in roundup_list %}
     
-    <div class="card mb-3">
+<div class="card mb-3 p-2 shadow bg-light" style="max-width:540px">
         <h4 class="card-header">
-            <a href="{% url 'blog:roundup_detail' roundup.slug %}">{{roundup.title}}</a>
-            <small class="text-muted">{{roundup.created_on}}</small>
+            <a class="text-dark" href="{% url 'blog:roundup_detail' roundup.slug %}">{{roundup.title}}</a>
         </h4>
         <div class="card-body">
             {{roundup.content}}

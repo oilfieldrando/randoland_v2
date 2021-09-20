@@ -23,26 +23,43 @@
 {% endblock tags %}
 
 {% block page_header %}
-    <h4>Latest Posts</h4>
+<div class="alert alert-success text-center shadow" role="alert">
+  <a href="{% url 'blog:donate'%}" class="alert-link">Click to donate to RandoLand, it's just some rando with a day job</a>
+</div>
+
+{% comment %}
+<div class="text-center">
+    <h3>Latest Posts</h3>
+</div>
+{% endcomment %}
+
 {% endblock page_header %}
 
 {% block content %}
+<style>
+  a:hover
+  {text-decoration:none;}
+  .card:hover{
+  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+</style>
 
 <h5>
-  <a href="{% url 'blog:wastebooks' %}">Wastebooks&raquo;</a>
+  <a class="text-dark" href="{% url 'blog:bill_breakdowns' %}">Breakdowns&raquo;</a>
 </h5>
-{% for wastebook in wastebooks %}
+
+{% for bill_breakdown in bill_breakdowns %}
   
-  <div class="card mb-3 p-2" style="max-width: 540px;">
-      <a href="{{wastebook.url}}">
+  <div class="card mb-3 p-2 bg-light">
+      <a href="{% url 'blog:bill_breakdown' bill_breakdown.slug %}">
       <div class="row no-gutters align-items-center">
         <div class="col-md-4">
-          <img src="{{wastebook.image.url}}" class="card-img" alt="...">
+          <img src="{{bill_breakdown.image.url}}" class="card-img" alt="...">
         </div>
         <div class="col-md-8">
           <div class="card-body">
-            <h5 class="card-title">{{wastebook.title}}</h5>
-            <p class="card-text">{{wastebook.desc}}</p>
+            <h5 class="card-title text-dark">{{bill_breakdown.title}}</h5>
+            <p class="card-text text-dark">{{bill_breakdown.blurb}}</p>
           </div>
         </div>
       </div>
@@ -53,55 +70,56 @@
 {% endfor %}
 
 <h5>
-    <a href="{% url 'blog:bill_breakdowns' %}">Breakdowns&raquo;</a>
+  <a class="text-dark" href="{% url 'blog:thinkpieces' %}">Thinkpieces&raquo;</a>
 </h5>
-{% for bill_breakdown in bill_breakdowns %}
-    
-    <div class="card mb-3 p-2" style="max-width: 540px;">
-        <a href="{% url 'blog:bill_breakdown' bill_breakdown.slug %}">
-        <div class="row no-gutters align-items-center">
-          <div class="col-md-4">
-            <img src="{{bill_breakdown.image.url}}" class="card-img" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{{bill_breakdown.title}}</h5>
-              <p class="card-text">{{bill_breakdown.blurb}}</p>
-            </div>
-          </div>
-        </div>
-        </a>
-    </div>   
-{% empty %}
-    <h3>No posts have been added yet</h3>
-{% endfor %}
-
-<h5>
-    <a href="{% url 'blog:thinkpieces' %}">Thinkpieces&raquo;</a>
-</h5>
-
 
 {% for thinkpiece in thinkpieces %}
 
-
-<div class="card mb-3 p-2" style="max-width: 540px;">
-    <a href="{% url 'blog:thinkpiece_detail' thinkpiece.slug %}">
-    <div class="row no-gutters align-items-center">
-      <div class="col-md-4">
-        <img src="{{thinkpiece.image.url}}" class="card-img" alt="...">
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">{{thinkpiece.title}}</h5>
-          <p class="card-text">{{thinkpiece.blurb}}</p>
-        </div>
+<div class="card mb-3 p-2 bg-light">
+  <a href="{% url 'blog:thinkpiece_detail' thinkpiece.slug %}">
+  <div class="row no-gutters align-items-center">
+    <div class="col-md-4">
+      <img src="{{thinkpiece.image.url}}" class="card-img" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title text-dark">{{thinkpiece.title}}</h5>
+        <p class="card-text text-dark">{{thinkpiece.blurb}}</p>
       </div>
     </div>
-    </a>
+  </div>
+  </a>
 </div>
 {% empty %}
-    <h3>No posts have been added yet</h3>
+  <h3>No posts have been added yet</h3>
 {% endfor %}
-        
+
+<h5>
+  <a class="text-dark" href="{% url 'blog:wastebooks' %}">Wastebooks&raquo;</a>
+</h5>
+{% for wastebook in wastebooks %}
+  
+  <div class="card mb-3 p-2 bg-light">
+      <a href="{{wastebook.url}}">
+      <div class="row no-gutters align-items-center">
+        <div class="col-md-4">
+          <img src="{{wastebook.image.url}}" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title text-dark">{{wastebook.title}}</h5>
+            <p class="card-text text-dark">{{wastebook.desc}}</p>
+          </div>
+        </div>
+      </div>
+      </a>
+  </div>   
+{% empty %}
+  <h3>No posts have been added yet</h3>
+{% endfor %}
+
+
+
+
 
 {% endblock content %}

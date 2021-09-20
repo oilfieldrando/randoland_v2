@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block tags %}
+<!-- Primary Meta Tags -->
+<title>Donate</title>
+<meta name="title" content="Donate to RandoLand">
+<meta name="description" content="Mucking through .gov so you don't have to.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.randoland.us/donate/">
+<meta property="og:title" content="Donate to RandoLand">
+<meta property="og:description" content="Mucking through .gov so you don't have to.">
+<meta property="og:image" content="https://d3346f13f1pt3f.cloudfront.net/static/logolarge.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://www.randoland.us/donate/">
+<meta name="twitter:title" content="Donate">
+<meta name="twitter:description" content="Mucking through .gov so you don't have to.">
+<meta name="twitter:image" content="https://d3346f13f1pt3f.cloudfront.net/static/logolarge.png">
+
+{% endblock tags %}
+
+
+{% block page_header %}
+<div class="text-center">
+    <h3>Donate to RandoLand</h3>
+</div>
+{% endblock page_header %}
+
+
+{% block content %}
+<div class="card mb-3 p-2 bg-light shadow">
+    
+    <div class="row no-gutters">
+        <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">RandoLand is one guy with a day job turning wrenches. Beer money is greatly appreciated!</h5><br>
+              <p class="card-text">
+                {% comment %}
+                &emsp;<b>Paypal</b>:<a href="https://cash.app/$OilfieldRando">&nbsp;cash.app/$OilfieldRando</a><br><br>
+                {% endcomment %}
+                &emsp;<b>CashApp</b>:<a href="https://cash.app/$OilfieldRando">&nbsp;cash.app/$OilfieldRando</a><br><br>
+                &emsp;<b>Bitcoin</b>: 3KUcv77Sz63QTE8GTP5W7bNNU6GVETkYQh<br><br>
+                &emsp;<b>Ethereum</b>: 0xaE086E57DA64390A5FA4e30FC59009bF0999A670
+              </p>
+            </div>
+        </div>
+      <div class="col-md-4">
+        <img src="https://d3346f13f1pt3f.cloudfront.net/static/donate.jpg" class="card-img" alt="...">
+      </div>
+      
+    </div>
+    </a>
+</div>   
+
+{% endblock content %}
