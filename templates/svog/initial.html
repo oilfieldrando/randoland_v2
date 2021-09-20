@@ -41,8 +41,10 @@
 {% block content %}
 
 <div class="container-fluid">
+  {% comment %}
   <div class="row">
       <div class="col-auto">
+  {% endcomment %}
         <form action="{% url 'wastebooks:svog_state' %}" method="post" id="inputState" >
         {% csrf_token %}
           <div class="form-group" style="max-width:200px">
@@ -56,7 +58,7 @@
           </div>
         </form>
       </div>
-    
+    {% comment %}
     <div class="col-auto"> 
       <form method="post" action="{% url 'wastebooks:svog_city' %}" id="inputCity">
           {% csrf_token %}
@@ -80,6 +82,7 @@
       </form>
     </div>
   </div>
+  {% endcomment %}
 </div>
 
 <div class="border-bottom"></div>
