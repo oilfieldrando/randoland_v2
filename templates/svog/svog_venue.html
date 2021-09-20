@@ -31,15 +31,15 @@
 <div class="alert alert-success text-center shadow" role="alert">
   <a href="{% url 'blog:donate'%}" class="alert-link">Click to donate to RandoLand, it's just some rando with a day job</a>
 </div>
-  
-  <div class="text-center container-fluid">
-    <h2>Shuttered Venue Operators Grantees</h2>
-  </div>
+<a href="{% url 'wastebooks:svog' %}">Dashboard Home</a>
+<div class="text-center container-fluid">
+  <h2>Shuttered Venue Operators Grantees</h2>
+</div>
 {% endblock page_header %}
 
 {% block content %}
 
-<div class="container-fluid text-center">
+<div class="container-fluid">
   <div class="row">
       <div class="col-auto">
         <div class="text-center">
@@ -91,10 +91,10 @@
 </div>
 
 <div class="border-bottom"></div>
-<div class="p-2 mb-4 container">
+<div class="p-3 container">
     {% for i in venue_detail %}
     <div class="text-center">
-      <h4>Grant Detail</h4>
+      <h3>Grant Detail</h3>
     </div>
     
       <table class="m-auto text-center mt-2 table table-bordered" style="max-width:600px;">
