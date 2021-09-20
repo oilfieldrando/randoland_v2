@@ -80,7 +80,7 @@
           <div class="form-group" style="max-width:400px">
             <label for="inputVenue" class="col-sm-2 col-form-label col-form-label-sm">Venue:</label>
                   <select class="form-control form-control-sm" name="inputVenue" id="inputVenue" onchange="this.form.submit()">
-                      <option value="" selected disabled>--venue--</option>
+                      <option class="text-center" value="" selected disabled>--select venue--</option>
                       {% for i in venue_list_data %}
                       <option value="{{i.inst_id}}">{{i.venue}}</option>
                       {% endfor %}

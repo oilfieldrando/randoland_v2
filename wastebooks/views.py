@@ -375,57 +375,66 @@ def svog_state(request):
     venue_list_tableset = venue_list.reset_index().to_json(orient = 'records')
     venues_list_data = []
     venue_list_data = json.loads(venue_list_tableset)
+    
 
     # Variables
     state_total = svog[svog['state_full']==state].iloc[:,[0]].sum()
     total_grantees = total_grantees = len(svog[svog['state_full']==state][svog.columns[1]].tolist())
     percent_share = (state_total/(svog['amount'].sum()))*100
 
-    if data_view == 'Top City Payouts':
-        # Top Recipients by City table
-        cities = list(city_set['city_id'].values)
-        city_svog = pd.DataFrame({'city':[],'city_id':[],'total':[]})
-        for x in cities:
-            city_svog_data = svog[svog['city_id']==x]
-            city_svog = city_svog.append({'city':city_svog_data.iloc[0,3],'city_id':x,'total':city_svog_data.iloc[:,[0]].sum()},ignore_index=True)
-            city_svog = city_svog.astype({'total':'float','city_id':'int'})
-            city_svog = city_svog.sort_values(by=['total'], ascending=False)
-            city_svog =  city_svog.iloc[0:20,:]
+  
+        
+    # Top Recipients by City table
+    cities = list(city_set['city_id'].values)
+    city_svog = pd.DataFrame({'state':[],'city':[],'city_id':[],'total':[]})
+    for x in cities:
+        city_svog_data = svog[svog['city_id']==x]
+        city_svog = city_svog.append({'state':city_svog_data.iloc[0,6],'city':city_svog_data.iloc[0,3],'city_id':x,'total':city_svog_data.iloc[:,[0]].sum()},ignore_index=True)
+        city_svog = city_svog.astype({'total':'float','city_id':'int'})
+        city_svog = city_svog.sort_values(by=['total'], ascending=False)
+        
     
-        city_table = city_svog.reset_index().to_json(orient = 'records')
-        data = []
-        data = json.loads(city_table)
+    city_table = city_svog.reset_index().to_json(orient = 'records')
+    data = []
+    data = json.loads(city_table)
 
-        context={
-        'state_list':state_list,
-        'city_list':city_list,
-        'state':state,
-        'city':city,
-        'data':data,
-        'data':data,
-        'venue_list_data':venue_list_data,
-        'data_view':data_view,
-        'state_total':state_total,
-        'total_grantees':total_grantees,
-        'percent_share':percent_share,
+    top_25=svog[svog['state_full']==state].sort_values(by=['amount'], ascending=False).reset_index()
+    top_25_tableset = top_25.reset_index().to_json(orient = 'records')
+    top_25_data = []
+    top_25_data = json.loads(top_25_tableset)
+    
+    context={
+    'state_list':state_list,
+    'city_list':city_list,
+    'state':state,
+    'city':city,
+    'data':data,
+    'venue_list_data':venue_list_data,
+    'data_view':data_view,
+    'state_total':state_total,
+    'total_grantees':total_grantees,
+    'percent_share':percent_share,
+    'top_25_data':top_25_data,
         
     }
-    else:
-        # Top Recipients Venues in State
-        top_25=svog[svog['state_full']==state].sort_values(by=['amount'], ascending=False).iloc[:25].reset_index()
-        top_25_tableset = top_25.reset_index().to_json(orient = 'records')
-        top_25_data = []
-        top_25_data = json.loads(top_25_tableset)
 
-        context={
-        'state_list':state_list,
-        'city_list':city_list,
-        'state':state,
-        'city':city,
-        'top_25_data':top_25_data,
-        'data_view':data_view,
-        'venue_list_data':venue_list_data,
-    }
+    #else:
+        # Top Recipients Venues in State
+        
+        #top_25=svog[svog['state_full']==state].sort_values(by=['amount'], ascending=False).iloc[:25].reset_index()
+        #top_25_tableset = top_25.reset_index().to_json(orient = 'records')
+        #top_25_data = []
+        #top_25_data = json.loads(top_25_tableset)
+
+        #context={
+        #'state_list':state_list,
+        #'city_list':city_list,
+        #'state':state,
+        #'city':city,
+        #'top_25_data':top_25_data,
+        #'data_view':data_view,
+        #'venue_list_data':venue_list_data,
+    #}
     
     
   

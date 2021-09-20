@@ -38,9 +38,15 @@
 {% endblock page_header %}  
 
 {% block content %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.1.1/dist/chart.min.js"></script>
+<style>
+th {
+  position: sticky;
+  top: 0; /* Don't forget this, required for the stickiness */
+}
+</style>
 
 <div class="container-fluid text-center">
+
     <div class="row">
         <div class="col-auto">
           <div class="text-center">
@@ -62,10 +68,10 @@
       <div class="col-auto"> 
         <form method="post" action="{% url 'wastebooks:svog_city' %}" id="inputCity">
             {% csrf_token %}
-            <div class="form-group" style="max-width:400px">
+            <div class="form-group">
               <label for="inputCity" class="col-form-label col-form-label-sm">City:</label>
                     <select class="form-control form-control-sm" name="inputCity" id="inputCity" onchange="this.form.submit()">
-                        <option value="" selected disabled>--city list--</option>
+                        <option class="text-center" value="" selected disabled>--select city--</option>
                         {% for i in city_list %}
                         <option value="{{i.city_id}}">{{i.city}}</option>
                         {% endfor %}
@@ -79,7 +85,7 @@
             <div class="form-group" style="max-width:400px">
               <label for="inputVenue" class="col-form-label col-form-label-sm">Venue:</label>
                     <select class="form-control form-control-sm" name="inputVenue" id="inputVenue" onchange="this.form.submit()">
-                        <option value="" selected disabled>--state venue list--</option>
+                        <option class="text-center" value="" selected disabled>--select venue--</option>
                         {% for i in venue_list_data %}
                         <option value="{{i.inst_id}}">{{i.venue}}</option>
                         {% endfor %}
@@ -98,125 +104,97 @@
     <h2>{{state}} SVOG Data</h2> 
   </div>
   
-  <div class="pb-2 container-fluid">
-    <div class="row d-flex align-items-start">
+  <div class="pb-2 container-fluid text-center">      
+    
+      <table class="m-auto text-center mt-2 table table-bordered">
+        <tbody class="thead-dark">
+          <tr class="table-active">
+            <th scope="row" class="align-middle">Total</th>
+            <td class="text-center align-middle"><b>${{state_total|floatformat:0|intcomma}}</b></td>               
+          </tr>
+          <tr class="table-active">
+            <th scope="row" class="align-middle">Recipients</th>
+            <td class="text-center align-middle"><b>{{total_grantees|floatformat:0|intcomma}}</b></td>               
+          </tr>
+          <tr class="table-active">
+            <th scope="row" class="align-middle">Share of total</th>
+            <td class="text-center align-middle"><b>{{percent_share|floatformat:1}}%</b></td>               
+          </tr>
+        </tbody>
+      </table>
+    
+  </div>
+  
+  <div class="container-fluid pt-2 text-center">
+    <div class="row text-center pt-2">
       <div class="col-lg-6">
-        <div class="pt-4 container-fluid">
-          <div class= "text-center">
-            <h3>Overview</h3>
-          </div>
-          <table class="m-auto text-center mt-2 table table-bordered" style="max-width:600px;">
-            <tr>
-            </tr>
-            <tbody class="thead-dark">
-              <tr class="table-active">
-                <th scope="row" class="align-middle">Total</th>
-                <td class="text-center align-middle"><b>${{state_total|floatformat:0|intcomma}}</b></td>               
+        <div class="text-center container-fluid pt-2">
+          <h4>Payouts by City</h4> 
+        </div>
+        <div class="container-fluid text-center" style="max-height: 500px;overflow:scroll;overflow-x:hidden;">
+          <table class="text-center table table-sm table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                <th class="text-center" scope="col">City</th>
+                <th scope="col">Total Grants</th>
               </tr>
-              <tr class="table-active">
-                <th scope="row" class="align-middle">Recipients</th>
-                <td class="text-center align-middle"><b>{{total_grantees|floatformat:0|intcomma}}</b></td>               
-              </tr>
-              <tr class="table-active">
-                <th scope="row" class="align-middle">Share of total</th>
-                <td class="text-center align-middle"><b>{{percent_share|floatformat:1}}%</b></td>               
-              </tr>
+            </thead>
+            <tbody>
+              {% for i in data %}
+              <tr>
+                <td class="text-center align-middle">
+                  <form action="{% url 'wastebooks:svog_city' %}"  method="post">
+                  {% csrf_token %}
+                    <button type="submit" name="inputCity" value="{{i.city_id}}" class="btn btn-sm btn-light text-center"><u>{{i.city}}</button>
+                  </form>  
+                  </td>
+                <td class="text-center align-middle">${{i.total|floatformat:0|intcomma}}</td>               
+                </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
-      </div>
-  
-      <div class="col-lg-6">
-        
-          {% if data_view == 'Top City Payouts' %}
-          <div class="container-fluid pt-4 text-center">
-            
-                <form method="post" id="data_view" class="text-center">
-                {% csrf_token %}
-                  <div class="form-group">
-                      <select class="form-control" name="data_view" id="data_view" onchange="this.form.submit()">
-                        <option class="text-center" selected>{{data_view}}</option>
-                        <option class="text-center">Top Venue Payouts</option>         
-                      </select>
-                  </div>
-                </form>
-            
-            <div class="table-responsive">
-              <table class="m-auto text-center table table-sm table-bordered">
-                <thead class="thead-dark">
-                  <tr>
-                    <th class="text-center" scope="col">City</th>
-                    <th scope="col">Total Grants</th>
-                  </tr>
-                </thead>
-                <tbody>
-                {% for i in data %}
-                  <tr>
-                  <td class="text-center align-middle">
-                     <form action="{% url 'wastebooks:svog_city' %}"  method="post">
-                      {% csrf_token %}
-                        <button type="submit" name="inputCity" value="{{i.city_id}}" class="btn btn-sm btn-light text-center"><u>{{i.city}}</u>&raquo;</button>
-                      </form>  
-                        </td>
-                        <td class="text-center align-middle">${{i.total|floatformat:0|intcomma}}</td>               
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
-          </div>
-          {% endif %}
+      </div>    
+      <div class="col-lg-6" >
+        <div class="text-center container-fluid pt-2">
+          <h4>Payouts by Venue</h4> 
+        </div>
+        <div class="container-fluid text-center" style="max-height: 500px;overflow:scroll;overflow-x:hidden;"> 
           
-          {% if data_view == 'Top Venue Payouts' %}
-          <div class="container-fluid pt-4 text-center">
-            
-            <form method="post" id="data_view" class="text-center">
-            {% csrf_token %}
-              <div class="form-group">
-                  <select class="form-control" name="data_view" id="data_view" onchange="this.form.submit()">
-                    <option class="text-center" selected>{{data_view}}</option>
-                    <option class="text-center">Top City Payouts</option>         
-                  </select>
-              </div>
-            </form>
-
-            <div class="table-responsive">
-              <table class="m-auto text-center table table-sm table-bordered">
-                 <thead class="thead-dark">
-                    <tr>
-                      <th class="text-center" scope="col">Venue</th>
-                      <th scope="col">City</th>
-                      <th scope="col">Grant</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  {% for i in top_25_data %}
-                    <tr>
-                      <td class="text-center align-middle">
-                        <form action="{% url 'wastebooks:svog_venue' %}"  method="post">
-                        {% csrf_token %}
-                          <button type="submit" name="inputVenue" value="{{i.inst_id}}" class="btn btn-sm btn-light text-center"><u>{{i.venue}}</u></button>
-                        </form>  
-                      </td>
-                      <td class="text-center align-middle">
-                        <form action="{% url 'wastebooks:svog_city' %}"  method="post">
-                        {% csrf_token %}
-                          <button type="submit" name="inputCity" value="{{i.city_id}}" class="btn btn-sm btn-light text-center"><u>{{i.city}}</u></button>
-                        </form>  
-                        </td>
-                        <td class="text-center align-middle">${{i.amount|floatformat:0|intcomma}}</td>               
-                    </tr>
-                      {% endfor %}
-                  </tbody>
-              </table>
-            </div>
-          </div>
-          {% endif %} 
-
-        
+            <table class="text-center table table-sm table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th class="text-center" scope="col">Venue</th>
+                  <th scope="col">City</th>
+                  <th scope="col">Grant</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in top_25_data %}
+                <tr>
+                  <td class="text-center align-middle">
+                    <form action="{% url 'wastebooks:svog_venue' %}"  method="post">
+                      {% csrf_token %}
+                      <button type="submit" name="inputVenue" value="{{i.inst_id}}" class="btn btn-sm btn-light text-center"><u>{{i.venue}}</u></button>
+                    </form>  
+                  </td>
+                  <td class="text-center align-middle">
+                    <form action="{% url 'wastebooks:svog_city' %}"  method="post">
+                      {% csrf_token %}
+                      <button type="submit" name="inputCity" value="{{i.city_id}}" class="btn btn-sm btn-light text-center"><u>{{i.city}}</u></button>
+                    </form>  
+                  </td>
+                  <td class="text-center align-middle">${{i.amount|floatformat:0|intcomma}}</td>               
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          
+        </div> 
       </div>
     </div>
   </div>
+  
     
   
 
