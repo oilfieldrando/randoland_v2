@@ -41,7 +41,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'blog:wastebooks'%}">
-                Wastebooks</a>
+                Dashboards</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'blog:roundups'%}">
@@ -77,9 +77,17 @@
  
 <main role="main" class="container">
     {% include 'messages.html' %}
-
+    
+    
+        <div class="alert alert-success text-center shadow" role="alert">
+            <a href="{% url 'blog:donate'%}" class="alert-link">Donate to RandoLand</a>
+        </div>
+    
     <div>
-        {% block page_header %}{% endblock page_header %}
+        
+        {% block page_header %}
+        
+        {% endblock page_header %}
     </div>
     <div>
         {% block content %}{% endblock content %}

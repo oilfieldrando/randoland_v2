@@ -23,9 +23,6 @@
 {% endblock tags %}
 
 {% block page_header %}
-<div class="alert alert-success text-center shadow" role="alert">
-  <a href="{% url 'blog:donate'%}" class="alert-link">Click to donate to RandoLand, it's just some rando with a day job</a>
-</div>
 
 {% comment %}
 <div class="text-center">
@@ -95,7 +92,7 @@
 {% endfor %}
 
 <h5>
-  <a class="text-dark" href="{% url 'blog:wastebooks' %}">Wastebooks&raquo;</a>
+  <a class="text-dark" href="{% url 'blog:wastebooks' %}">Dashboards&raquo;</a>
 </h5>
 {% for wastebook in wastebooks %}
   

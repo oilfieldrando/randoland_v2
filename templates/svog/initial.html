@@ -13,14 +13,14 @@
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.randoland.us/svog/">
-<meta property="og:title" content="Wastebook: Shuttered Venue Operators Grants">
+<meta property="og:title" content="Dashboard: Shuttered Venue Operators Grants">
 <meta property="og:description" content="Database of SVOG grantees">
 <meta property="og:image" content="https://d3346f13f1pt3f.cloudfront.net/static/svog.png">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="https://www.randoland.us/svog">
-<meta name="twitter:title" content="Wastebook: Shuttered Venue Operators Grantees">
+<meta name="twitter:title" content="Dashboard: Shuttered Venue Operators Grantees">
 <meta name="twitter:description" content="Database of SVOG grantees">
 <meta name="twitter:image" content="https://d3346f13f1pt3f.cloudfront.net/static/svog.png">
 
@@ -28,13 +28,16 @@
 
 
 {% block page_header %}
-<div class="alert alert-success text-center shadow" role="alert">
-  <a href="{% url 'blog:donate'%}" class="alert-link">Click to donate to RandoLand, it's just some rando with a day job</a>
+
+
+<div class="container-fluid text-right">
+      <a href = "https://data.sba.gov/dataset/svog">Data Source</a>
 </div>
 
-<div class="text-center container-fluid">
+<div class="text-center container-fluid text-center">
   <h2>Shuttered Venue Operators Grantees</h2><br>
-  <p>Authorized by the American Rescue Act in March 2021 on a party line vote to give assistance to businesses and venues closed during coronavirus.</p>
+  <p>$16 billion authorized by the American Rescue Act in March 2021 on a party line vote to give assistance to businesses and 
+    venues closed during coronavirus.<br>Note: these are not PPP loans, they are grants.</p>
 </div>
 {% endblock page_header %}  
 
@@ -276,6 +279,6 @@ const config = {
     </table>
   </div>
 </div>
-
 {% endif %}
+
 {% endblock content %}

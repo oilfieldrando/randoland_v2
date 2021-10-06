@@ -28,10 +28,23 @@
 
 
 {% block page_header %}
-<div class="alert alert-success text-center shadow" role="alert">
-  <a href="{% url 'blog:donate'%}" class="alert-link">Click to donate to RandoLand, it's just some rando with a day job</a>
+
+<div class="container-fluid">
+  <div class="row">
+  <div class="col-lg-6">
+    <div class="text-left">
+      <a href="{% url 'wastebooks:svog' %}">Dashboard Home</a>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="text-right">
+      <a href = "https://data.sba.gov/dataset/svog">Data Source</a>
+    </div>
+  </div>
 </div>
-<a href="{% url 'wastebooks:svog' %}">Dashboard Home</a>
+
+</div>
+
 <div class="text-center container-fluid">
   <h2>Shuttered Venue Operators Grantees</h2>
 </div>
@@ -72,7 +85,7 @@
       </form>
     </div>
     <div class="col-auto"> 
-      <form method="post" action="{% url 'wastebooks:svog_venue' %}" id="inputVenue">
+      <form method="post" action="{% url 'wastebooks:svog_venue' %}" id="inputVenue" >
           {% csrf_token %}
           <div class="form-group" style="max-width:400px">
             <label for="inputVenue" class="col-sm-2 col-form-label col-form-label-sm">Venue:</label>

@@ -24,9 +24,7 @@
 {% endblock tags %}
 
 {% block page_header %}
-<div class="alert alert-success text-center shadow" role="alert">
-  <a href="{% url 'blog:donate'%}" class="alert-link">Click to donate to RandoLand, it's just some rando with a day job</a>
-</div>
+
 
 <div class="row">
   <div class="col text-left">
@@ -61,7 +59,7 @@
     </h4>
     <div class="pb-2 mb-2 border-bottom"></div>
     {% for breakdownitem in breakdownitems %} 
-    <a href="{% url 'blog:pics' bill_breakdown.slug breakdownitem.id %}">
+    <a class="text-dark" href="{% url 'blog:pics' bill_breakdown.slug breakdownitem.id %}">
     <h5 class="card-subtitle mt-3">{{breakdownitem.title}}</h5>
     </a>
 
