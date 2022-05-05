@@ -30,58 +30,65 @@
     <span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Articles
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{% url 'blog:bill_breakdowns'%}">Breakdowns</a>
+                  <a class="dropdown-item" href="{% url 'blog:thinkpieces'%}">Thinkpieces</a>
+                  <a class="dropdown-item" href="{% url 'blog:roundups'%}">Weekly Roundup</a>
+                </div>
+            </li>
+            {% comment %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'blog:bill_breakdowns'%}">
                 Breakdowns</a>
             </li>
             
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'blog:thinkpieces'%}">
-                Thinkpieces</a>
+                <a class="nav-link" href="{% url 'blog:roundups'%}">
+                Weekly Roundup</a>
             </li>
+            {% endcomment %}
+            
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'blog:wastebooks'%}">
                 Dashboards</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'blog:roundups'%}">
-                Weekly Roundup</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'blog:donate'%}">
+                <a class="nav-link" href="https://www.paypal.com/donate/?hosted_button_id=WUTD8LZKKYAMA">
                 Donate</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="https://www.landmanlife.com/product/randoland-richardson-trucker-cap/">
                 Merch</a>
             </li>
-           
-        </ul>
-        {% comment %}
-        <ul class="navbar-nav ml-auto">
+            {% comment %}
             {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <span class="navbar-text">Welcome back, <a href="{% url 'users:profile'%}">{{user.username}}</a></span>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'users:profile'%}">User Profile</a>
+            </li>
             {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}"
-                    >Login/Register</a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Login/Register</a>
+            </li>
             {% endif %}
+            {% endcomment %}
         </ul>
-        {% endcomment %}
-        
+        <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'blog:search_results'%}">
+            {% csrf_token %}
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
+            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+          </form>    
     </div>
 </nav>
  
 <main role="main" class="container">
     {% include 'messages.html' %}
-    
-    
-        <div class="alert alert-success text-center shadow" role="alert">
-            <a href="{% url 'blog:donate'%}" class="alert-link">Donate to RandoLand</a>
-        </div>
+    <a href="https://www.paypal.com/donate/?hosted_button_id=WUTD8LZKKYAMA" class="p-2">
+        <button type="button" class="btn btn-success btn-lg btn-block"><b>Donate to RandoLand (Paypal/Credit card)</b></button>
+    </a>
     
     <div>
         

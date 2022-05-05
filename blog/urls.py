@@ -5,6 +5,7 @@ app_name = 'blog'
 
 urlpatterns = [
     path('',views.index, name='home'),
+    path('search/',views.search_results, name='search_results'),
     # View thinkpieces
     path('thinkpieces/', views.ThinkpieceList.as_view(), name='thinkpieces'),
     path('thinkpieces/<slug:slug>/', views.ThinkpieceDetail.as_view(), 
@@ -64,5 +65,7 @@ urlpatterns = [
     path('delete/bill_breakdowns/<slug:slug_text>/<int:breakdownitem_id>/', 
          views.delete_breakdown_detail, name='delete_breakdown_item'),
     path('donate/',views.donate, name='donate'),
+
+    
 
     ]

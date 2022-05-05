@@ -5,6 +5,7 @@ from django.http import Http404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
+from django.db.models import Q
 
 
 from .models import Thinkpiece, BillBreakdown, BreakdownItem, Images, Roundup, Wastebook
@@ -13,6 +14,29 @@ from .forms import ThinkpieceForm, BillBreakdownForm, BreakdownItemForm, Roundup
 
 
 # Blog Pages
+
+def search_results(request):
+
+    # Query breakdowns
+    
+    if request.method == "POST":
+        searched = request.POST['search']
+        breakdowns = BillBreakdown.objects.filter(title__contains=searched, status=1)
+        breakdown_items = BreakdownItem.objects.filter(title__contains=searched, billbreakdown__status=1)
+        thinkpieces = Thinkpiece.objects.filter(title__contains=searched, status=1)
+    
+        context = {
+        'searched':searched,
+        'breakdowns':breakdowns,
+        'breakdown_items':breakdown_items,
+        'thinkpieces':thinkpieces,
+        }
+        return render(request, 'search_results.html', context)
+    else:
+        context={}
+        return render(request, 'search_results.html', context)
+
+
 def wastebooks(request):
     """Show all Wastebooks"""
     wastebooks = Wastebook.objects.filter(status=1).order_by('-created_on')
@@ -87,9 +111,9 @@ class RoundupDetail(generic.DetailView):
 def index(request):
 
     return render(request,'index.html',{
-        'wastebooks':Wastebook.objects.filter(status=1)[:1],
-        'bill_breakdowns':BillBreakdown.objects.filter(status=1)[:1],
-        'thinkpieces': Thinkpiece.objects.filter(status=1)[:1],
+        'wastebooks':Wastebook.objects.filter(status=1)[:3],
+        'bill_breakdowns':BillBreakdown.objects.filter(status=1)[:3],
+        'thinkpieces': Thinkpiece.objects.filter(status=1)[:3],
     
         })
 
@@ -293,7 +317,7 @@ def new_breakdown_detail(request, slug_text):
         raise Http404
         
     
-    ImageFormSet = modelformset_factory(Images,fields=('image',), extra=4)
+    ImageFormSet = modelformset_factory(Images,fields=('image',), extra=8)
     #'extra' means the number of photos that you can upload   ^
     if request.method == 'POST':
     
@@ -396,7 +420,7 @@ def edit_breakdown_detail(request, slug_text, breakdownitem_id):
     bill_breakdown = get_object_or_404(BillBreakdown, slug=slug_text)
     breakdown_item = get_object_or_404(BreakdownItem, id=breakdownitem_id)
     form_class = BreakdownItemForm
-    ImageFormSet = modelformset_factory(Images,fields=('image',), extra=6, max_num=6)
+    ImageFormSet = modelformset_factory(Images,fields=('image',), extra=8, max_num=8)
     
     if bill_breakdown.author != request.user:
         raise Http404
@@ -548,5 +572,10 @@ def delete_roundup(request, slug):
         'roundup':roundup
         }
     return render(request, 'roundup_delete.html', context)
+
+
+
+
+
 
 

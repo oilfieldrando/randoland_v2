@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block tags %}
+<!-- Primary Meta Tags -->
+<title>Donate</title>
+<meta name="title" content="Search RandoLand">
+<meta name="description" content="Mucking through .gov so you don't have to.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.randoland.us/search/">
+<meta property="og:title" content="Search RandoLand">
+<meta property="og:description" content="Mucking through .gov so you don't have to.">
+<meta property="og:image" content="https://d3346f13f1pt3f.cloudfront.net/static/logolarge.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://www.randoland.us/search/">
+<meta name="twitter:title" content="Search">
+<meta name="twitter:description" content="Mucking through .gov so you don't have to.">
+<meta name="twitter:image" content="https://d3346f13f1pt3f.cloudfront.net/static/logolarge.png">
+
+{% endblock tags %}
+
+
+{% block page_header %}
+<div class="text-center">
+    <h3>Search</h3>
+</div>
+{% endblock page_header %}
+
+
+{% block content %}
+
+
+{% if searched %}  
+{% if breakdowns or thinkpieces or breakdown_items %}
+<div class="card">
+    <div class="card-header">
+        Results for "{{searched}}":
+    </div>
+    <div class="card-body">
+        {% if breakdowns %}
+        
+        {% for x in breakdowns %}
+            <p class="card-text"><a href="{% url 'blog:bill_breakdown' x.slug %}">{{x.title}}: {{x.blurb}}</a> (Breakdown)</p>
+        {% endfor %}
+        {% else %}
+        {% endif %}
+
+        {% if breakdown_items %}
+        {% for y in breakdown_items %}
+            <p class="card-text"><a href="{% url 'blog:pics' y.billbreakdown.slug y.id %}">{{y.title}} in {{y.billbreakdown.title}} </a>(Breakdown item)</p>
+        {% endfor %}
+        {% else %}
+        {% endif %}
+
+        {% if thinkpieces %}
+        {% for z in thinkpieces %}
+            <p class="card-text"><a href="{% url 'blog:thinkpiece_detail' z.slug %}">{{z.title}}: {{z.blurb}}</a> (Thinkpiece)</p>
+        {% endfor %}
+        {% else %}
+        {% endif %}
+    {% else %}
+        <div class="card">
+            <div class="card-header">
+            No results for {{searched}}.
+            </div>
+        </div>
+    {% endif %}
+{% else %}
+        <div class="container p-2">No search terms entered</div>
+{% endif %}       
+    </div>
+</div>
+ 
+{% endblock content %}
